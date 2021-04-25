@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31205.134
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DLUScheduleMobile.UWP", "DLUScheduleMobile\DLUScheduleMobile.UWP\DLUScheduleMobile.UWP.csproj", "{F7587158-502E-433F-B5D7-F1F108530068}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DLUScheduleManager.UWP", "DLUScheduleManager\DLUScheduleManager.UWP\DLUScheduleManager.UWP.csproj", "{F7587158-502E-433F-B5D7-F1F108530068}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DLUScheduleMobile.Android", "DLUScheduleMobile\DLUScheduleMobile.Android\DLUScheduleMobile.Android.csproj", "{97AE5847-3270-40AE-BB7E-E83AC95B5FC1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DLUScheduleManager.Android", "DLUScheduleManager\DLUScheduleManager.Android\DLUScheduleManager.Android.csproj", "{97AE5847-3270-40AE-BB7E-E83AC95B5FC1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DLUScheduleMobile", "DLUScheduleMobile\DLUScheduleMobile\DLUScheduleMobile.csproj", "{2194F22F-B917-444E-BCB6-4F24DECECDEA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DLUScheduleLibrary", "DLUScheduleManager\DLUScheduleLibrary\DLUScheduleLibrary.csproj", "{2194F22F-B917-444E-BCB6-4F24DECECDEA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

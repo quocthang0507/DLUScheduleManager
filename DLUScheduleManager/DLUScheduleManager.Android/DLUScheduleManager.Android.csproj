@@ -91,9 +91,9 @@
     <AndroidResource Include="Resources\drawable\icon_feed.png" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\DLUScheduleMobile\DLUScheduleMobile.csproj">
-      <Project>{0CA04508-5F14-47D2-A291-78BFCE328595}</Project>
-      <Name>DLUScheduleMobile</Name>
+    <ProjectReference Include="..\DLUScheduleMobile\DLUScheduleLibrary.csproj">
+      <Project>{2194F22F-B917-444E-BCB6-4F24DECECDEA}</Project>
+      <Name>DLUScheduleLibrary</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
