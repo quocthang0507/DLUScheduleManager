@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("DLUScheduleMobile.UWP")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyTitle("DLU Schedule Manager")]
+[assembly: AssemblyDescription("DLU Schedule Manager")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("La Quoc Thang")]
 [assembly: AssemblyProduct("DLUScheduleMobile.UWP")]
-[assembly: AssemblyCopyright("Copyright ©  2015")]
+[assembly: AssemblyCopyright("Copyright ©  2021")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
