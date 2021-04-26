@@ -9,6 +9,11 @@ namespace DLUSchedule.Services
 	{
 		public readonly List<Lecturer> Items;
 
+		public MockLecturerData(List<Lecturer> lecturers)
+		{
+			Items = lecturers;
+		}
+
 		public MockLecturerData(string schoolyear, string semester)
 		{
 			string url = $"http://qlgd.dlu.edu.vn/Public/GetProfessorByTerm/{schoolyear}${semester}";

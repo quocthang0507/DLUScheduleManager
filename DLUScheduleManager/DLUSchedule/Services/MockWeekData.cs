@@ -9,6 +9,11 @@ namespace DLUSchedule.Services
 	{
 		public readonly List<WeekInfo> Items;
 
+		public MockWeekData(List<WeekInfo> weeks)
+		{
+			Items = weeks;
+		}
+
 		public MockWeekData(string schoolyear, string semester)
 		{
 			string url = $"http://qlgd.dlu.edu.vn/Public/GetWeek/{schoolyear}${semester}";

@@ -13,8 +13,9 @@ namespace DLUSchedule.Views
 	public partial class HomePage : ContentPage
 	{
 		private HomeViewModel model = new HomeViewModel();
-		private MockWeekData weeks;
-		private MockLecturerData lecturers;
+		private MockWeekData mWeeks;
+		private MockLecturerData mLecturers;
+		private LecturerDatabase database;
 
 		public HomePage()
 		{
@@ -23,13 +24,12 @@ namespace DLUSchedule.Views
 			BindingContext = model;
 
 			model.DisplayBlankLoginPrompt += () => DisplayAlert("Lỗi", "Không được bỏ trống ô này!", "Đồng ý");
-			model.Reload += () => ReloadWhenChanged();
+			model.Reload += () => PopulateLecturersAndWeeks();
 			cbxSchoolYear.SelectedIndexChanged += Combobox_SelectedIndexChanged;
 			cbxSemester.SelectedIndexChanged += Combobox_SelectedIndexChanged;
 
 			PopulateSchoolyears();
 			SetCurrentSemester();
-			ReloadWhenChanged();
 		}
 
 		#region Events
@@ -37,7 +37,7 @@ namespace DLUSchedule.Views
 		{
 			if (cbxSemester.SelectedItem != null && cbxSchoolYear.SelectedItem != null)
 			{
-				ReloadWhenChanged();
+				PopulateLecturersAndWeeks();
 			}
 		}
 
@@ -85,13 +85,13 @@ namespace DLUSchedule.Views
 		/// <param name="semester">VD: HK01</param>
 		private void PopulateWeeksInSemester(string schoolyear, string semester)
 		{
-			weeks = new MockWeekData(schoolyear, semester);
-			if (weeks.Items == null)
+			mWeeks = new MockWeekData(schoolyear, semester);
+			if (mWeeks.Items == null)
 			{
 				DisplayAlert("Lỗi", "Lỗi xuất hiện khi xử lý dữ liệu", "OK");
 				return;
 			}
-			else cbxWeek.ItemsSource = weeks.Items.Select(x => x.DisPlayWeek).ToList();
+			else cbxWeek.ItemsSource = mWeeks.Items.Select(x => x.DisPlayWeek).ToList();
 		}
 
 		/// <summary>
@@ -101,32 +101,52 @@ namespace DLUSchedule.Views
 		/// <param name="semester">VD: HK01</param>
 		private void PopulateLecturersInSemester(string schoolyear, string semester)
 		{
-			lecturers = new MockLecturerData(schoolyear, semester);
-			if (lecturers.Items == null)
+			mLecturers = new MockLecturerData(schoolyear, semester);
+			if (mLecturers.Items == null)
 			{
 				DisplayAlert("Lỗi", "Lỗi xuất hiện khi xử lý dữ liệu", "OK");
 				return;
 			}
-			cbxLecturer.ItemsSource = lecturers.Items.Select(x => x.ProfessorName).ToList();
+			cbxLecturer.ItemsSource = mLecturers.Items.Select(x => x.ProfessorName).ToList();
+			//SaveLecturers();
 		}
+
+		//private async void PopulateLecturersInSemester()
+		//{
+		//	database = await LecturerDatabase.Instance;
+		//	var lecturers = await database.GetLecturersAsync();
+		//	if (lecturers.Count == 0)
+		//		PopulateLecturersInSemester(cbxSchoolYear.SelectedItem as string, cbxSemester.SelectedItem as string);
+		//	else mLecturers = new MockLecturerData(lecturers);
+		//	cbxLecturer.SelectedIndex = 0;
+		//}
 
 		/// <summary>
 		/// Tải lại các nội dung khi học kỳ hoặc tên giảng viên bị thay đổi
 		/// </summary>
-		private void ReloadWhenChanged()
+		private void PopulateLecturersAndWeeks()
 		{
-			PopulateWeeksInSemester(cbxSchoolYear.SelectedItem as string, cbxSemester.SelectedItem as string);
 			PopulateLecturersInSemester(cbxSchoolYear.SelectedItem as string, cbxSemester.SelectedItem as string);
+			cbxLecturer.SelectedIndex = 0;
 
-			if (weeks.Items != null)
+			PopulateWeeksInSemester(cbxSchoolYear.SelectedItem as string, cbxSemester.SelectedItem as string);
+			if (mWeeks.Items != null)
 			{
 				int numberOfWeeks = Common.GetWeekOfYear(DateTime.Now);
-				var findWeek = weeks.Items.First(x => x.Week == numberOfWeeks);
+				var findWeek = mWeeks.Items.Where(x => x.Week == numberOfWeeks).FirstOrDefault();
 				if (findWeek != null)
 					cbxWeek.SelectedIndex = findWeek.DisPlayWeek - 1;
 			}
+		}
 
-			cbxLecturer.SelectedIndex = 0;
+		private async void SaveLecturers()
+		{
+			database = await LecturerDatabase.Instance;
+			await database.DeleteAllAsync();
+			foreach (var lecturer in mLecturers.Items)
+			{
+				await database.SaveItemAsync(lecturer);
+			}
 		}
 		#endregion
 	}
