@@ -4,7 +4,7 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using Xamarin.Forms;
 
-namespace DLUScheduleMobile.ViewModels
+namespace DLUSchedule.ViewModels
 {
 	public class BaseViewModel : INotifyPropertyChanged
 	{

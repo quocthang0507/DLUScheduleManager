@@ -1,10 +1,10 @@
-﻿using DLUScheduleMobile.ViewModels;
+﻿using DLUSchedule.ViewModels;
 using System;
 using System.ComponentModel;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-namespace DLUScheduleMobile.Views
+namespace DLUSchedule.Views
 {
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class HomePage : ContentPage

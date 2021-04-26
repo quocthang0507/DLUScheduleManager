@@ -175,9 +175,9 @@
     <PackageReference Include="Xamarin.Essentials" Version="1.6.1" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\DLUScheduleLibrary\DLUScheduleLibrary.csproj">
+    <ProjectReference Include="..\DLUSchedule\DLUSchedule.csproj">
       <Project>{2194F22F-B917-444E-BCB6-4F24DECECDEA}</Project>
-      <Name>DLUScheduleLibrary</Name>
+      <Name>DLUSchedule</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">

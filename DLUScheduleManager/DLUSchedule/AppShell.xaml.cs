@@ -1,10 +1,10 @@
-﻿using DLUScheduleMobile.ViewModels;
-using DLUScheduleMobile.Views;
+﻿using DLUSchedule.ViewModels;
+using DLUSchedule.Views;
 using System;
 using System.Collections.Generic;
 using Xamarin.Forms;
 
-namespace DLUScheduleMobile
+namespace DLUSchedule
 {
 	public partial class AppShell : Xamarin.Forms.Shell
 	{

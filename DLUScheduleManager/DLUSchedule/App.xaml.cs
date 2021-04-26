@@ -1,9 +1,9 @@
-﻿using DLUScheduleMobile.Views;
+﻿using DLUSchedule.Views;
 using System;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-namespace DLUScheduleMobile
+namespace DLUSchedule
 {
 	public partial class App : Application
 	{

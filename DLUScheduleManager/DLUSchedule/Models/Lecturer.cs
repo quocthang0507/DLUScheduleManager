@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace DLUScheduleLibrary.Models
+namespace DLUSchedule.Models
 {
 	public class Lecturer
 	{

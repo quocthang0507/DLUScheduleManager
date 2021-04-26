@@ -13,7 +13,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
-namespace DLUScheduleMobile.UWP
+namespace DLUSchedule.UWP
 {
     public sealed partial class MainPage
     {
@@ -21,7 +21,7 @@ namespace DLUScheduleMobile.UWP
         {
             this.InitializeComponent();
 
-            LoadApplication(new DLUScheduleMobile.App());
+            LoadApplication(new DLUSchedule.App());
         }
     }
 }
