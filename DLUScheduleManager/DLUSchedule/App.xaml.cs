@@ -1,7 +1,6 @@
-﻿using DLUSchedule.Views;
-using System;
+﻿using DLUSchedule.Utils;
+using DLUSchedule.Views;
 using Xamarin.Forms;
-using Xamarin.Forms.Xaml;
 
 namespace DLUSchedule
 {
@@ -12,7 +11,7 @@ namespace DLUSchedule
 		{
 			InitializeComponent();
 
-			MainPage = new HomePage();
+			MainPage = !Common.IsConnectedToInternet() ? new HomePage(true) : new HomePage();
 		}
 
 		protected override void OnStart()

@@ -1,42 +1,33 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Windows.Input;
-using Xamarin.Essentials;
 using Xamarin.Forms;
 
 namespace DLUSchedule.ViewModels
 {
 	public class HomeViewModel : BaseViewModel, INotifyPropertyChanged
 	{
-		private string fullname;
-
 		public Action DisplayBlankLoginPrompt;
-		public Action DisplayInvalidLoginPrompt;
+		public Action Reload;
 		public ICommand SubmitCommand { protected set; get; }
+		public ICommand ReloadCommand { protected set; get; }
 		public event PropertyChangedEventHandler PropertyChanged = delegate { };
-
-		public string Fullname
-		{
-			get { return fullname; }
-			set
-			{
-				fullname = value;
-				PropertyChanged(this, new PropertyChangedEventArgs("Fullname"));
-			}
-		}
 
 		public HomeViewModel()
 		{
 			SubmitCommand = new Command(OnSubmit);
+			ReloadCommand = new Command(OnReload);
 			Title = "Trang chủ";
+		}
+
+		private void OnReload(object obj)
+		{
+			Reload();
 		}
 
 		private void OnSubmit(object obj)
 		{
-			if (string.IsNullOrWhiteSpace(Fullname))
-				DisplayBlankLoginPrompt();
-			else
-				DisplayInvalidLoginPrompt();
+			DisplayBlankLoginPrompt();
 		}
 	}
 }

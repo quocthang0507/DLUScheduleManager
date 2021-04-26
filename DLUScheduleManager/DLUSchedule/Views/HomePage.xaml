@@ -17,7 +17,7 @@
 				<RowDefinition Height="Auto" />
 				<RowDefinition Height="*" />
 			</Grid.RowDefinitions>
-			<StackLayout BackgroundColor="{StaticResource Accent}" VerticalOptions="FillAndExpand" HorizontalOptions="Fill">
+			<StackLayout BackgroundColor="White" VerticalOptions="FillAndExpand" HorizontalOptions="Fill">
 				<StackLayout Orientation="Horizontal" HorizontalOptions="Center" VerticalOptions="Center">
 					<ContentView Padding="0,10,0,10" VerticalOptions="FillAndExpand">
 						<Image Source="logo_DLU.png" VerticalOptions="Center"/>
@@ -25,20 +25,29 @@
 				</StackLayout>
 			</StackLayout>
 			<ScrollView Grid.Row="1">
-				<StackLayout Orientation="Vertical" Padding="30,24,30,24" Spacing="10">
-					<Label Text="Chào mừng bạn đến với ứng dụng Quản lý Thời khóa biểu Giảng viên" FontSize="Title" HorizontalTextAlignment="Center"/>
-					<Label Text="Trường Đại học Đà Lạt" FontSize="Title" HorizontalTextAlignment="Center"/>
-					<Frame HasShadow="False">
-						<StackLayout Orientation="Vertical">
-							<Entry x:Name="txtFullname" Text="{Binding Fullname}" 
-							   Placeholder="Họ và tên giảng viên" Keyboard="Text"
-							   Margin="0,0,0,0"/>
-							</StackLayout>
-					</Frame>
+				<StackLayout Orientation="Vertical" Padding="10,20,10,20" Spacing="10">
+					<Label Text="Ứng dụng Quản lý Thời khóa biểu Giảng viên" FontSize="Title" HorizontalTextAlignment="Center"/>
+					<Label Text="Trường Đại học Đà Lạt" FontSize="Title" HorizontalTextAlignment="Center" TextTransform="Uppercase"/>
+					<StackLayout Orientation="Vertical" Spacing="20">
+						<Picker x:Name="cbxSchoolYear" Title="Chọn năm học:" />
+						<Picker x:Name="cbxSemester" Title="Chọn học kỳ:">
+							<Picker.ItemsSource>
+								<x:Array Type="{x:Type x:String}">
+									<x:String>HK01</x:String>
+									<x:String>HK02</x:String>
+									<x:String>HK03</x:String>
+								</x:Array>
+							</Picker.ItemsSource>
+						</Picker>
+						<Picker x:Name="cbxLecturer" Title="Chọn họ và tên giảng viên:"/>
+						<Picker x:Name="cbxWeek" Title="Chọn tuần:"/>
+					</StackLayout>
 					<Button Text="Đăng nhập"
                         Command="{Binding SubmitCommand}"
-                        BackgroundColor="{StaticResource Primary}"
-                        TextColor="White"	HorizontalOptions="FillAndExpand"/>
+                        BackgroundColor="{StaticResource Primary}" />
+					<Button x:Name="btnReload" Text="Tải lại"
+						Command="{Binding ReloadCommand}"
+						BackgroundColor="LawnGreen" IsVisible="False"/>
 				</StackLayout>
 			</ScrollView>
 		</Grid>

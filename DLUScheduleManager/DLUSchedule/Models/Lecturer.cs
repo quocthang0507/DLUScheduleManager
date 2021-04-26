@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace DLUSchedule.Models
+﻿namespace DLUSchedule.Models
 {
 	public class Lecturer
 	{
-		public string ID { get; set; }
-		public string Fullname { get; set; }
+		public string ProfessorID { get; set; }
+		public string ProfessorName { get; set; }
 	}
 }
