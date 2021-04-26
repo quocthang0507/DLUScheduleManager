@@ -1,5 +1,4 @@
-﻿using DLUScheduleMobile.Services;
-using DLUScheduleMobile.Views;
+﻿using DLUScheduleMobile.Views;
 using System;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -13,8 +12,7 @@ namespace DLUScheduleMobile
 		{
 			InitializeComponent();
 
-			DependencyService.Register<MockDataStore>();
-			MainPage = new AppShell();
+			MainPage = new HomePage();
 		}
 
 		protected override void OnStart()
