@@ -47,7 +47,7 @@
                         BackgroundColor="{StaticResource Primary}" />
 					<Button x:Name="btnReload" Text="Tải lại"
 						Command="{Binding ReloadCommand}"
-						BackgroundColor="LawnGreen" IsVisible="False"/>
+						BackgroundColor="LawnGreen"/>
 				</StackLayout>
 			</ScrollView>
 		</Grid>

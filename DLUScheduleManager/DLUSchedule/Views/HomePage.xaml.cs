@@ -15,30 +15,21 @@ namespace DLUSchedule.Views
 		private HomeViewModel model = new HomeViewModel();
 		private MockWeekData weeks;
 		private MockLecturerData lecturers;
-		private bool noInternet;
 
-		public HomePage(bool noInternet = false)
+		public HomePage()
 		{
 			InitializeComponent();
 
-			this.noInternet = noInternet;
 			BindingContext = model;
-			model.Reload += () => ReloadWhenChanged();
 
+			model.DisplayBlankLoginPrompt += () => DisplayAlert("Lỗi", "Không được bỏ trống ô này!", "Đồng ý");
+			model.Reload += () => ReloadWhenChanged();
 			cbxSchoolYear.SelectedIndexChanged += Combobox_SelectedIndexChanged;
 			cbxSemester.SelectedIndexChanged += Combobox_SelectedIndexChanged;
 
 			PopulateSchoolyears();
 			SetCurrentSemester();
-
-			if (noInternet)
-				btnReload.IsVisible = true;
-			else
-			{
-				model.DisplayBlankLoginPrompt += () => DisplayAlert("Lỗi", "Không được bỏ trống ô này!", "Đồng ý");
-
-				ReloadWhenChanged();
-			}
+			ReloadWhenChanged();
 		}
 
 		#region Events
@@ -97,8 +88,7 @@ namespace DLUSchedule.Views
 			weeks = new MockWeekData(schoolyear, semester);
 			if (weeks.Items == null)
 			{
-				if (!noInternet)
-					DisplayAlert("Lỗi", "Lỗi xuất hiện khi xử lý dữ liệu", "OK");
+				DisplayAlert("Lỗi", "Lỗi xuất hiện khi xử lý dữ liệu", "OK");
 				return;
 			}
 			else cbxWeek.ItemsSource = weeks.Items.Select(x => x.DisPlayWeek).ToList();
@@ -114,8 +104,7 @@ namespace DLUSchedule.Views
 			lecturers = new MockLecturerData(schoolyear, semester);
 			if (lecturers.Items == null)
 			{
-				if (!noInternet)
-					DisplayAlert("Lỗi", "Lỗi xuất hiện khi xử lý dữ liệu", "OK");
+				DisplayAlert("Lỗi", "Lỗi xuất hiện khi xử lý dữ liệu", "OK");
 				return;
 			}
 			cbxLecturer.ItemsSource = lecturers.Items.Select(x => x.ProfessorName).ToList();
