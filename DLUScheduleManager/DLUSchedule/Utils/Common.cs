@@ -5,7 +5,6 @@ using System.Globalization;
 using System.Net;
 using System.Net.NetworkInformation;
 using System.Text;
-using System.Threading.Tasks;
 using System.Web;
 
 namespace DLUSchedule.Utils
@@ -33,23 +32,32 @@ namespace DLUSchedule.Utils
 			return output.ToString();
 		}
 
-		public async static Task<List<T>> GetJsonsFromURLAsync<T>(string url)
+		public static List<T> GetJsonsFromURL<T>(string url)
 		{
-			await Task.Run(() =>
+			try
 			{
-				try
+				using (WebClient client = new WebClient())
 				{
-					using (WebClient client = new WebClient())
-					{
-						var json = client.DownloadString(url);
-						var list = JsonConvert.DeserializeObject<List<T>>(json);
-						return list;
-					}
+					var json = client.DownloadString(url);
+					var list = JsonConvert.DeserializeObject<List<T>>(json);
+					return list;
 				}
-				catch { }
-				return null;
-			}).ConfigureAwait(true);
+			}
+			catch { }
 			return null;
+		}
+
+		public static string GetHTMLFromURL(string url)
+		{
+			try
+			{
+				using (WebClient client = new WebClient())
+				{
+					return client.DownloadString(url);
+				}
+			}
+			catch { }
+			return string.Empty;
 		}
 
 		public static int GetWeekOfYear(DateTime dateTime)

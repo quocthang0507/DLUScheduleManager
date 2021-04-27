@@ -1,4 +1,7 @@
-﻿namespace DLUSchedule
+﻿using DLUSchedule.Views;
+using Xamarin.Forms;
+
+namespace DLUSchedule
 {
 	public partial class AppShell : Xamarin.Forms.Shell
 	{
@@ -6,7 +9,7 @@
 		{
 			InitializeComponent();
 
-			// Routing.RegisterRoute(nameof(ItemDetailPage), typeof(ItemDetailPage));
+			Routing.RegisterRoute(nameof(SchedulePage), typeof(SchedulePage));
 		}
 
 	}

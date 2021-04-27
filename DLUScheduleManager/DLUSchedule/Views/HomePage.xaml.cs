@@ -14,15 +14,29 @@ namespace DLUSchedule.Views
 	public partial class HomePage : ContentPage
 	{
 		private HomeViewModel model = new HomeViewModel();
-		private MockWeekData mWeeks;
-		private MockLecturerData mLecturers;
+		private static HomePage singleton;
 
-		public HomePage()
+		public MockWeekData mWeeks { get; protected set; }
+		public MockLecturerData mLecturers { get; protected set; }
+
+		public static HomePage Singleton
+		{
+			get
+			{
+				if (singleton == null)
+					singleton = new HomePage();
+				return singleton;
+			}
+		}
+
+		private HomePage()
 		{
 			InitializeComponent();
 			BindingContext = model;
+
 			model.DisplayAlertAction += () => DisplayAlert("Lỗi", "Không được bỏ trống ô này!", "Đồng ý");
 			model.ReloadAction += () => PopulateLecturersAndWeeks();
+
 			cbxSchoolYear.SelectedIndexChanged += Combobox_SelectedIndexChanged;
 			cbxSemester.SelectedIndexChanged += Combobox_SelectedIndexChanged;
 
@@ -84,7 +98,6 @@ namespace DLUSchedule.Views
 		private async Task PopulateWeeksInSemesterAsync(string schoolyear, string semester)
 		{
 			mWeeks = new MockWeekData(schoolyear, semester);
-			await mWeeks.CreateAsync();
 			if (mWeeks.Items == null)
 			{
 				await DisplayAlert("Lỗi", "Lỗi xuất hiện khi xử lý dữ liệu", "OK");
@@ -101,7 +114,6 @@ namespace DLUSchedule.Views
 		private async Task PopulateLecturersInSemesterAsync(string schoolyear, string semester)
 		{
 			mLecturers = new MockLecturerData(schoolyear, semester);
-			await mLecturers.CreateAsync();
 			if (mLecturers.Items == null)
 			{
 				await DisplayAlert("Lỗi", "Lỗi xuất hiện khi xử lý dữ liệu", "OK");
@@ -115,22 +127,19 @@ namespace DLUSchedule.Views
 		/// </summary>
 		private void PopulateLecturersAndWeeks()
 		{
-			Task.Run(async () =>
+			PopulateLecturersInSemesterAsync(cbxSchoolYear.SelectedItem as string, cbxSemester.SelectedItem as string);
+			cbxLecturer.SelectedIndex = 0;
+
+			PopulateWeeksInSemesterAsync(cbxSchoolYear.SelectedItem as string, cbxSemester.SelectedItem as string);
+			if (mWeeks.Items != null)
 			{
-				await PopulateLecturersInSemesterAsync(cbxSchoolYear.SelectedItem as string, cbxSemester.SelectedItem as string);
-				cbxLecturer.SelectedIndex = 0;
-			}).Wait();
-			Task.Run(async () =>
-			{
-				await PopulateWeeksInSemesterAsync(cbxSchoolYear.SelectedItem as string, cbxSemester.SelectedItem as string);
-				if (mWeeks.Items != null)
-				{
-					int numberOfWeeks = Common.GetWeekOfYear(DateTime.Now);
-					var findWeek = mWeeks.Items.Where(x => x.Week == numberOfWeeks).FirstOrDefault();
-					if (findWeek != null)
-						cbxWeek.SelectedIndex = findWeek.DisPlayWeek - 1;
-				}
-			}).Wait();
+				int numberOfWeeks = Common.GetWeekOfYear(DateTime.Now);
+				var findWeek = mWeeks.Items.Where(x => x.Week == numberOfWeeks).FirstOrDefault();
+				if (findWeek != null)
+					cbxWeek.SelectedIndex = findWeek.DisPlayWeek - 1;
+				else
+					cbxWeek.SelectedIndex = 0;
+			}
 		}
 		#endregion
 	}
