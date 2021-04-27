@@ -41,16 +41,16 @@ namespace DLUSchedule.Services
 			return database.Table<Lecturer>().Where(x => x.ProfessorID == id).FirstOrDefaultAsync();
 		}
 
-		public Task<int> SaveItemAsync(Lecturer lecturer)
+		public async Task<int> SaveItemAsync(Lecturer lecturer)
 		{
-			var result = GetItemAsync(lecturer.ProfessorID);
-			if (result.Result == null)
+			var result = await GetItemAsync(lecturer.ProfessorID);
+			if (result == null)
 			{
-				return database.InsertAsync(lecturer);
+				return await database.InsertAsync(lecturer);
 			}
 			else
 			{
-				return database.UpdateAsync(lecturer);
+				return await database.UpdateAsync(lecturer);
 			}
 		}
 

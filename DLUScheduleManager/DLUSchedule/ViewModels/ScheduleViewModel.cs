@@ -15,7 +15,7 @@ namespace DLUSchedule.ViewModels
 
 		public ScheduleViewModel()
 		{
-			Title = "Lịch";
+			Title = "Thời khóa biểu giảng viên";
 		}
 	}
 }

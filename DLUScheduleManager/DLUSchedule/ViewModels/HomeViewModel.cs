@@ -19,7 +19,9 @@ namespace DLUSchedule.ViewModels
 		public Action ReloadAction;
 		public ICommand SubmitCommand { protected set; get; }
 		public ICommand ReloadCommand { protected set; get; }
+#pragma warning disable CS0108 // Member hides inherited member; missing new keyword
 		public event PropertyChangedEventHandler PropertyChanged = delegate { };
+#pragma warning restore CS0108 // Member hides inherited member; missing new keyword
 
 		public string Schoolyear
 		{
@@ -76,8 +78,9 @@ namespace DLUSchedule.ViewModels
 				DisplayAlertAction();
 			else
 			{
-				string professorID = HomePage.Singleton.mLecturers.Items.FirstOrDefault(x => x.ProfessorName == fullname).ProfessorID;
-				Shell.Current.GoToAsync($"{nameof(SchedulePage)}?{nameof(Schoolyear)}={schoolyear}&{nameof(Semester)}={semester}&{nameof(Week)}={week}&ProfessorID={professorID}");
+				string professorID = HomePage.Instance.MLecturers.Items.FirstOrDefault(x => x.ProfessorName == fullname).ProfessorID;
+				int realWeek = HomePage.Instance.MWeeks.DisplayWeekToRealWeek(week);
+				Shell.Current.GoToAsync($"{nameof(SchedulePage)}?{nameof(Schoolyear)}={schoolyear}&{nameof(Semester)}={semester}&{nameof(Week)}={realWeek}&ProfessorID={professorID}");
 			}
 		}
 	}

@@ -10,9 +10,8 @@ namespace DLUSchedule
 		{
 			InitializeComponent();
 
-			MainPage = HomePage.Singleton;
-
-			Routing.RegisterRoute(nameof(SchedulePage), typeof(SchedulePage));
+			// MainPage = HomePage.Singleton;
+			MainPage = new AppShell();
 		}
 
 		protected override void OnStart()

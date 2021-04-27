@@ -11,6 +11,5 @@ namespace DLUSchedule
 
 			Routing.RegisterRoute(nameof(SchedulePage), typeof(SchedulePage));
 		}
-
 	}
 }

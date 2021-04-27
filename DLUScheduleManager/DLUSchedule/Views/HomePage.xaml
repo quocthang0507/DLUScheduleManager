@@ -42,7 +42,7 @@
 						<Picker x:Name="cbxLecturer" Title="Chọn họ và tên giảng viên:" SelectedItem="{Binding Fullname}"/>
 						<Picker x:Name="cbxWeek" Title="Chọn tuần:" SelectedItem="{Binding Week}"/>
 					</StackLayout>
-					<Button Text="Đăng nhập"
+					<Button Text="Xem thời khóa biểu"
                         Command="{Binding SubmitCommand}"
                         BackgroundColor="{StaticResource Primary}" />
 					<Button x:Name="btnReload" Text="Tải lại"

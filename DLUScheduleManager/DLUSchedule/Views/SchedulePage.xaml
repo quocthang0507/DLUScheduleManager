@@ -4,7 +4,7 @@
              x:Class="DLUSchedule.Views.SchedulePage"
              xmlns:vm="clr-namespace:DLUSchedule.ViewModels" x:DataType="vm:ScheduleViewModel"
 			 Title="{Binding Title}">
-	
+
 	<ContentPage.Resources>
 		<ResourceDictionary>
 			<Color x:Key="Accent">#96d1ff</Color>
@@ -12,8 +12,10 @@
 	</ContentPage.Resources>
 
 	<ContentPage.Content>
-        <StackLayout>
-			<WebView/>
+		<StackLayout VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
+			<WebView x:Name="webView" 
+					 VerticalOptions="FillAndExpand" 
+					 HorizontalOptions="FillAndExpand"/>
 		</StackLayout>
-    </ContentPage.Content>
+	</ContentPage.Content>
 </ContentPage>

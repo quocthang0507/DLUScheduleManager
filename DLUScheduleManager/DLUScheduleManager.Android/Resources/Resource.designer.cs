@@ -11683,10 +11683,10 @@ namespace DLUScheduleMobile.Droid
 			public const int icon = 2131165296;
 			
 			// aapt resource value: 0x7F070071
-			public const int icon_about = 2131165297;
+			public const int icon_home = 2131165297;
 			
 			// aapt resource value: 0x7F070072
-			public const int icon_feed = 2131165298;
+			public const int icon_schedule = 2131165298;
 			
 			// aapt resource value: 0x7F07006C
 			public const int ic_mtrl_checked_circle = 2131165292;
