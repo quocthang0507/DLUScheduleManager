@@ -4,6 +4,7 @@ using DLUSchedule.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -15,16 +16,13 @@ namespace DLUSchedule.Views
 		private HomeViewModel model = new HomeViewModel();
 		private MockWeekData mWeeks;
 		private MockLecturerData mLecturers;
-		private LecturerDatabase database;
 
 		public HomePage()
 		{
 			InitializeComponent();
-
 			BindingContext = model;
-
-			model.DisplayBlankLoginPrompt += () => DisplayAlert("Lỗi", "Không được bỏ trống ô này!", "Đồng ý");
-			model.Reload += () => PopulateLecturersAndWeeks();
+			model.DisplayAlertAction += () => DisplayAlert("Lỗi", "Không được bỏ trống ô này!", "Đồng ý");
+			model.ReloadAction += () => PopulateLecturersAndWeeks();
 			cbxSchoolYear.SelectedIndexChanged += Combobox_SelectedIndexChanged;
 			cbxSemester.SelectedIndexChanged += Combobox_SelectedIndexChanged;
 
@@ -83,12 +81,13 @@ namespace DLUSchedule.Views
 		/// </summary>
 		/// <param name="schoolyear">VD: 2020-2021</param>
 		/// <param name="semester">VD: HK01</param>
-		private void PopulateWeeksInSemester(string schoolyear, string semester)
+		private async Task PopulateWeeksInSemesterAsync(string schoolyear, string semester)
 		{
 			mWeeks = new MockWeekData(schoolyear, semester);
+			await mWeeks.CreateAsync();
 			if (mWeeks.Items == null)
 			{
-				DisplayAlert("Lỗi", "Lỗi xuất hiện khi xử lý dữ liệu", "OK");
+				await DisplayAlert("Lỗi", "Lỗi xuất hiện khi xử lý dữ liệu", "OK");
 				return;
 			}
 			else cbxWeek.ItemsSource = mWeeks.Items.Select(x => x.DisPlayWeek).ToList();
@@ -99,54 +98,39 @@ namespace DLUSchedule.Views
 		/// </summary>
 		/// <param name="schoolyear">VD: 2020-2021</param>
 		/// <param name="semester">VD: HK01</param>
-		private void PopulateLecturersInSemester(string schoolyear, string semester)
+		private async Task PopulateLecturersInSemesterAsync(string schoolyear, string semester)
 		{
 			mLecturers = new MockLecturerData(schoolyear, semester);
+			await mLecturers.CreateAsync();
 			if (mLecturers.Items == null)
 			{
-				DisplayAlert("Lỗi", "Lỗi xuất hiện khi xử lý dữ liệu", "OK");
+				await DisplayAlert("Lỗi", "Lỗi xuất hiện khi xử lý dữ liệu", "OK");
 				return;
 			}
 			cbxLecturer.ItemsSource = mLecturers.Items.Select(x => x.ProfessorName).ToList();
-			//SaveLecturers();
 		}
-
-		//private async void PopulateLecturersInSemester()
-		//{
-		//	database = await LecturerDatabase.Instance;
-		//	var lecturers = await database.GetLecturersAsync();
-		//	if (lecturers.Count == 0)
-		//		PopulateLecturersInSemester(cbxSchoolYear.SelectedItem as string, cbxSemester.SelectedItem as string);
-		//	else mLecturers = new MockLecturerData(lecturers);
-		//	cbxLecturer.SelectedIndex = 0;
-		//}
 
 		/// <summary>
 		/// Tải lại các nội dung khi học kỳ hoặc tên giảng viên bị thay đổi
 		/// </summary>
 		private void PopulateLecturersAndWeeks()
 		{
-			PopulateLecturersInSemester(cbxSchoolYear.SelectedItem as string, cbxSemester.SelectedItem as string);
-			cbxLecturer.SelectedIndex = 0;
-
-			PopulateWeeksInSemester(cbxSchoolYear.SelectedItem as string, cbxSemester.SelectedItem as string);
-			if (mWeeks.Items != null)
+			Task.Run(async () =>
 			{
-				int numberOfWeeks = Common.GetWeekOfYear(DateTime.Now);
-				var findWeek = mWeeks.Items.Where(x => x.Week == numberOfWeeks).FirstOrDefault();
-				if (findWeek != null)
-					cbxWeek.SelectedIndex = findWeek.DisPlayWeek - 1;
-			}
-		}
-
-		private async void SaveLecturers()
-		{
-			database = await LecturerDatabase.Instance;
-			await database.DeleteAllAsync();
-			foreach (var lecturer in mLecturers.Items)
+				await PopulateLecturersInSemesterAsync(cbxSchoolYear.SelectedItem as string, cbxSemester.SelectedItem as string);
+				cbxLecturer.SelectedIndex = 0;
+			}).Wait();
+			Task.Run(async () =>
 			{
-				await database.SaveItemAsync(lecturer);
-			}
+				await PopulateWeeksInSemesterAsync(cbxSchoolYear.SelectedItem as string, cbxSemester.SelectedItem as string);
+				if (mWeeks.Items != null)
+				{
+					int numberOfWeeks = Common.GetWeekOfYear(DateTime.Now);
+					var findWeek = mWeeks.Items.Where(x => x.Week == numberOfWeeks).FirstOrDefault();
+					if (findWeek != null)
+						cbxWeek.SelectedIndex = findWeek.DisPlayWeek - 1;
+				}
+			}).Wait();
 		}
 		#endregion
 	}

@@ -7,8 +7,8 @@ namespace DLUSchedule.ViewModels
 {
 	public class HomeViewModel : BaseViewModel, INotifyPropertyChanged
 	{
-		public Action DisplayBlankLoginPrompt;
-		public Action Reload;
+		public Action DisplayAlertAction;
+		public Action ReloadAction;
 		public ICommand SubmitCommand { protected set; get; }
 		public ICommand ReloadCommand { protected set; get; }
 		public event PropertyChangedEventHandler PropertyChanged = delegate { };
@@ -22,12 +22,12 @@ namespace DLUSchedule.ViewModels
 
 		private void OnReload(object obj)
 		{
-			Reload();
+			ReloadAction();
 		}
 
 		private void OnSubmit(object obj)
 		{
-			DisplayBlankLoginPrompt();
+			DisplayAlertAction();
 		}
 	}
 }
