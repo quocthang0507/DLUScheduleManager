@@ -1,5 +1,4 @@
-﻿using DLUSchedule.Views;
-using Xamarin.Forms;
+﻿using Xamarin.Forms;
 
 namespace DLUSchedule
 {

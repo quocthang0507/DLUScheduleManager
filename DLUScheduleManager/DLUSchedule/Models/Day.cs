@@ -2,8 +2,14 @@
 
 namespace DLUSchedule.Models
 {
+	/// <summary>
+	/// Lịch theo ngày
+	/// </summary>
 	public class Day
 	{
-		public List<Subject> Subjects { get; set; }
+		/// <summary>
+		/// Các môn học trong ngày
+		/// </summary>
+		public List<Subject> Subjects = new List<Subject>();
 	}
 }

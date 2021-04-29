@@ -1,14 +1,23 @@
 ﻿using DLUSchedule.Models;
 using DLUSchedule.Utils;
+using HtmlAgilityPack;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace DLUSchedule.Services
 {
+	/// <summary>
+	/// Lấy thời khóa biểu của giảng viên tại thời điểm xác định từ hệ thống quản lý giảng đường
+	/// </summary>
 	public class MockSheduleData
 	{
+		private HtmlDocument htmlDoc;
+
+		/// <summary>
+		/// Thời khóa biểu các ngày trong tuần
+		/// </summary>
 		public List<Day> WeekSchedule { get; protected set; }
-		public string HTML { get; protected set; }
 
 		public MockSheduleData(List<Day> weekSchedule)
 		{
@@ -17,10 +26,37 @@ namespace DLUSchedule.Services
 
 		public MockSheduleData(string schoolyear, string semester, int weekNumber, string professorID)
 		{
+			WeekSchedule = new List<Day>();
 			if (Common.IsNullOrWhitespace(schoolyear, semester, professorID))
 				throw new ArgumentNullException("Please use the constructor with four parameters first");
 			string url = $"http://qlgd.dlu.edu.vn/Public/DrawingProfessorSchedule?YearStudy={schoolyear}&TermID={semester}&Week={weekNumber}&ProfessorID={professorID}";
-			HTML = Common.GetHTMLFromURL(url);
+			ParseHtml(url);
+		}
+
+		/// <summary>
+		/// Chuyển bảng thời khóa biểu sang đối tượng quản lý
+		/// </summary>
+		/// <param name="url"></param>
+		private void ParseHtml(string url)
+		{
+			HtmlWeb htmlWeb = new HtmlWeb();
+			htmlDoc = htmlWeb.Load(url);
+			List<List<string>> table = htmlDoc.DocumentNode.SelectSingleNode("//table")
+				.Descendants("tr")
+				.Skip(1) // Skip <th>
+				.Where(tr => tr.Elements("td").Count() > 1)
+				.Select(tr => tr.Elements("td").Select(td => td.InnerText.Trim()).ToList())
+				.ToList();
+			foreach (var day in table)
+			{
+				Day _day = new Day();
+				foreach (var session in day)
+				{
+					Subject subject = new Subject(session);
+					_day.Subjects.Add(subject);
+				}
+				WeekSchedule.Add(_day);
+			}
 		}
 	}
 }

@@ -97,12 +97,12 @@ namespace DLUSchedule.Views
 		private async Task PopulateWeeksInSemesterAsync(string schoolyear, string semester)
 		{
 			MWeeks = new MockWeekData(schoolyear, semester);
-			if (MWeeks.Items == null)
+			if (MWeeks.All == null)
 			{
 				await DisplayAlert("Lỗi", "Lỗi xuất hiện khi xử lý dữ liệu", "OK");
 				return;
 			}
-			else cbxWeek.ItemsSource = MWeeks.Items.Select(x => x.DisPlayWeek).ToList();
+			else cbxWeek.ItemsSource = MWeeks.All.Select(x => x.DisPlayWeek).ToList();
 		}
 
 		/// <summary>
@@ -113,12 +113,12 @@ namespace DLUSchedule.Views
 		private async Task PopulateLecturersInSemesterAsync(string schoolyear, string semester)
 		{
 			MLecturers = new MockLecturerData(schoolyear, semester);
-			if (MLecturers.Items == null)
+			if (MLecturers.All == null)
 			{
 				await DisplayAlert("Lỗi", "Lỗi xuất hiện khi xử lý dữ liệu", "OK");
 				return;
 			}
-			cbxLecturer.ItemsSource = MLecturers.Items.Select(x => x.ProfessorName).ToList();
+			cbxLecturer.ItemsSource = MLecturers.All.Select(x => x.ProfessorName).ToList();
 		}
 
 		/// <summary>
@@ -130,10 +130,10 @@ namespace DLUSchedule.Views
 			cbxLecturer.SelectedIndex = 0;
 
 			_ = PopulateWeeksInSemesterAsync(cbxSchoolYear.SelectedItem as string, cbxSemester.SelectedItem as string);
-			if (MWeeks.Items != null)
+			if (MWeeks.All != null)
 			{
 				int numberOfWeeks = Common.GetWeekOfYear(DateTime.Now);
-				var findWeek = MWeeks.Items.Where(x => x.Week == numberOfWeeks).FirstOrDefault();
+				var findWeek = MWeeks.All.Where(x => x.Week == numberOfWeeks).FirstOrDefault();
 				if (findWeek != null)
 					cbxWeek.SelectedIndex = findWeek.DisPlayWeek - 1;
 				else

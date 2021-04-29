@@ -11,6 +11,11 @@ namespace DLUSchedule.Utils
 {
 	public class Common
 	{
+		/// <summary>
+		/// Đổi các ký tự có dạng &#xxxx; sang ký tự Unicode
+		/// </summary>
+		/// <param name="input"></param>
+		/// <returns></returns>
 		public static string CharEntityToUnicode(string input)
 		{
 			StringBuilder output = new StringBuilder(input.Length);
@@ -32,6 +37,12 @@ namespace DLUSchedule.Utils
 			return output.ToString();
 		}
 
+		/// <summary>
+		/// Lấy chuỗi JSON từ URL dưới dạng danh sách đối tượng
+		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <param name="url"></param>
+		/// <returns></returns>
 		public static List<T> GetJsonsFromURL<T>(string url)
 		{
 			try
@@ -47,19 +58,30 @@ namespace DLUSchedule.Utils
 			return null;
 		}
 
+		/// <summary>
+		/// Lấy mã HTML từ URL
+		/// </summary>
+		/// <param name="url"></param>
+		/// <returns></returns>
 		public static string GetHTMLFromURL(string url)
 		{
 			try
 			{
 				using (WebClient client = new WebClient())
 				{
-					return client.DownloadString(url);
+					var data = client.DownloadData(url);
+					return Encoding.UTF8.GetString(data);
 				}
 			}
 			catch { }
 			return string.Empty;
 		}
 
+		/// <summary>
+		/// Lấy số tuần của thời gian hiện tại
+		/// </summary>
+		/// <param name="dateTime"></param>
+		/// <returns></returns>
 		public static int GetWeekOfYear(DateTime dateTime)
 		{
 			// Gets the Calendar instance associated with a CultureInfo.
@@ -73,6 +95,10 @@ namespace DLUSchedule.Utils
 			return myCal.GetWeekOfYear(dateTime, myCWR, myFirstDOW);
 		}
 
+		/// <summary>
+		/// Kiểm tra kết nối internet
+		/// </summary>
+		/// <returns></returns>
 		public static bool IsConnectedToInternet()
 		{
 			string host = @"https://www.google.com.vn/?gws_rd=ssl";
@@ -88,6 +114,11 @@ namespace DLUSchedule.Utils
 			return result;
 		}
 
+		/// <summary>
+		/// Kiểm tra IsNullOrWhitespace nhiều chuỗi
+		/// </summary>
+		/// <param name="strs"></param>
+		/// <returns></returns>
 		public static bool IsNullOrWhitespace(params string[] strs)
 		{
 			foreach (var str in strs)

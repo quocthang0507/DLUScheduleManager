@@ -6,13 +6,19 @@ using System.Linq;
 
 namespace DLUSchedule.Services
 {
+	/// <summary>
+	/// Lấy thông tin tuần học từ hệ thống quản lý giảng đường
+	/// </summary>
 	public class MockWeekData
 	{
-		public List<WeekInfo> Items { get; protected set; }
+		/// <summary>
+		/// Danh sách tuần theo học kỳ
+		/// </summary>
+		public List<WeekInfo> All { get; protected set; }
 
 		public MockWeekData(List<WeekInfo> weeks)
 		{
-			Items = weeks;
+			All = weeks;
 		}
 
 		public MockWeekData(string schoolyear, string semester)
@@ -20,18 +26,28 @@ namespace DLUSchedule.Services
 			if (Common.IsNullOrWhitespace(schoolyear, semester))
 				throw new ArgumentNullException("Please use the constructor with two parameters first");
 			string url = $"http://qlgd.dlu.edu.vn/Public/GetWeek/{schoolyear}${semester}";
-			Items = Common.GetJsonsFromURL<WeekInfo>(url);
+			All = Common.GetJsonsFromURL<WeekInfo>(url);
 		}
 
+		/// <summary>
+		/// Đổi tuần hiển thị sang tuần thực tế
+		/// </summary>
+		/// <param name="week"></param>
+		/// <returns></returns>
 		public int DisplayWeekToRealWeek(int week)
 		{
-			var result = Items.First(x => x.DisPlayWeek == week);
+			var result = All.First(x => x.DisPlayWeek == week);
 			return result.Week;
 		}
 
+		/// <summary>
+		/// Đổi tuần thực tế sang tuần hiển thị
+		/// </summary>
+		/// <param name="week"></param>
+		/// <returns></returns>
 		public int RealWeekToDisplayWeek(int week)
 		{
-			var result = Items.First(x => x.Week == week);
+			var result = All.First(x => x.Week == week);
 			return result.DisPlayWeek;
 		}
 	}

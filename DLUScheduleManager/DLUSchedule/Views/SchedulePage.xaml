@@ -13,9 +13,6 @@
 
 	<ContentPage.Content>
 		<StackLayout VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
-			<WebView x:Name="webView" 
-					 VerticalOptions="FillAndExpand" 
-					 HorizontalOptions="FillAndExpand"/>
 		</StackLayout>
 	</ContentPage.Content>
 </ContentPage>

@@ -25,15 +25,11 @@ namespace DLUSchedule.Views
 		private void SchedulePage_Appearing(object sender, System.EventArgs e)
 		{
 			MSchedule = new MockSheduleData(model.Schoolyear, model.Semester, model.Week, model.ProfessorID);
-			LoadSchedule();
 		}
 		#endregion
 
 		#region Methods
-		private void LoadSchedule()
-		{
-			webView.Source = MSchedule.HTML;
-		}
+
 		#endregion
 	}
 }
