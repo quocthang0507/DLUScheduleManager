@@ -1,18 +1,45 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+			 xmlns:resource ="clr-namespace:DLUSchedule.Properties"
              x:Class="DLUSchedule.Views.SchedulePage"
              xmlns:vm="clr-namespace:DLUSchedule.ViewModels" x:DataType="vm:ScheduleViewModel"
-			 Title="{Binding Title}">
+			 Title="{x:Static resource:Resources.Title}">
 
 	<ContentPage.Resources>
 		<ResourceDictionary>
 			<Color x:Key="Accent">#96d1ff</Color>
+			<Color x:Key="Header">#96d1ff</Color>
 		</ResourceDictionary>
 	</ContentPage.Resources>
-
+	
 	<ContentPage.Content>
 		<StackLayout VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
+			<ListView>
+				<ListView.Header>
+					<Grid>
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="1*"/>
+							<ColumnDefinition Width="1*"/>
+							<ColumnDefinition Width="1*"/>
+							<ColumnDefinition Width="1*"/>
+						</Grid.ColumnDefinitions>
+						<Label Text="" HorizontalOptions="Fill" Grid.Column="0" HorizontalTextAlignment="Center" FontAttributes="Bold" BackgroundColor="{StaticResource Header}"/>
+						<Label Text="{x:Static resource:Resources.Morning}" HorizontalOptions="Fill" Grid.Column="1" HorizontalTextAlignment="Center" FontAttributes="Bold" BackgroundColor="{StaticResource Header}"/>
+						<Label Text="{x:Static resource:Resources.Afternoon}" HorizontalOptions="Fill" Grid.Column="2" HorizontalTextAlignment="Center" FontAttributes="Bold" BackgroundColor="{StaticResource Header}"/>
+						<Label Text="{x:Static resource:Resources.Night}" HorizontalOptions="Fill" Grid.Column="3" HorizontalTextAlignment="Center"  FontAttributes="Bold" BackgroundColor="{StaticResource Header}"/>
+					</Grid>
+				</ListView.Header>
+				<ListView.ItemTemplate>
+					<DataTemplate>
+						<ViewCell>
+							<Grid BackgroundColor="Black">
+								
+							</Grid>
+						</ViewCell>
+					</DataTemplate>
+				</ListView.ItemTemplate>
+			</ListView>
 		</StackLayout>
 	</ContentPage.Content>
 </ContentPage>

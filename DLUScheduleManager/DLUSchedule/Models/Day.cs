@@ -8,6 +8,10 @@ namespace DLUSchedule.Models
 	public class Day
 	{
 		/// <summary>
+		/// Thứ trong tuần
+		/// </summary>
+		public string DayOfWeek { get; set; }
+		/// <summary>
 		/// Các môn học trong ngày
 		/// </summary>
 		public List<Subject> Subjects = new List<Subject>();

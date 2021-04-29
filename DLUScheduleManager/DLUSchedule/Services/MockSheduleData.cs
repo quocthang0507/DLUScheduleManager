@@ -47,15 +47,17 @@ namespace DLUSchedule.Services
 				.Where(tr => tr.Elements("td").Count() > 1)
 				.Select(tr => tr.Elements("td").Select(td => td.InnerText.Trim()).ToList())
 				.ToList();
-			foreach (var day in table)
+			for (int i = 0; i < 7; i++)
 			{
-				Day _day = new Day();
-				foreach (var session in day)
+				List<string> row = table[i];
+				Day day = new Day();
+
+				foreach (var session in row)
 				{
 					Subject subject = new Subject(session);
-					_day.Subjects.Add(subject);
+					day.Subjects.Add(subject);
 				}
-				WeekSchedule.Add(_day);
+				WeekSchedule.Add(day);
 			}
 		}
 	}
