@@ -1,4 +1,6 @@
-﻿using Xamarin.Forms;
+﻿using System.Globalization;
+using System.Threading;
+using Xamarin.Forms;
 
 namespace DLUSchedule
 {
@@ -9,7 +11,9 @@ namespace DLUSchedule
 		{
 			InitializeComponent();
 
-			// MainPage = HomePage.Singleton;
+			Thread.CurrentThread.CurrentUICulture = new CultureInfo("vi");
+			DLUSchedule.Properties.Resources.Culture = new CultureInfo("vi");
+
 			MainPage = new AppShell();
 		}
 

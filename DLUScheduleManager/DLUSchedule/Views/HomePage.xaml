@@ -1,9 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+			 xmlns:resource ="clr-namespace:DLUSchedule.Properties"
              x:Class="DLUSchedule.Views.HomePage"
              xmlns:vm="clr-namespace:DLUSchedule.ViewModels" x:DataType="vm:HomeViewModel"
-			 Title="{Binding Title}">
+			 Title="{x:Static resource:Resources.Title}">
 
 	<ContentPage.Resources>
 		<ResourceDictionary>
@@ -26,11 +27,11 @@
 			</StackLayout>
 			<ScrollView Grid.Row="1">
 				<StackLayout Orientation="Vertical" Padding="10,20,10,20" Spacing="10">
-					<Label Text="Ứng dụng Quản lý Thời khóa biểu Giảng viên" FontSize="Title" HorizontalTextAlignment="Center"/>
-					<Label Text="Trường Đại học Đà Lạt" FontSize="Title" HorizontalTextAlignment="Center" TextTransform="Uppercase"/>
+					<Label Text="{x:Static resource:Resources.Title}" FontSize="Title" HorizontalTextAlignment="Center"/>
+					<Label Text="{x:Static resource:Resources.Address}" FontSize="Title" HorizontalTextAlignment="Center" TextTransform="Uppercase"/>
 					<StackLayout Orientation="Vertical" Spacing="20">
-						<Picker x:Name="cbxSchoolYear" Title="Chọn năm học:" SelectedItem="{Binding Schoolyear}"/>
-						<Picker x:Name="cbxSemester" Title="Chọn học kỳ:" SelectedItem="{Binding Semester}">
+						<Picker x:Name="cbxSchoolYear" Title="{x:Static resource:Resources.ChooseYear}" SelectedItem="{Binding Schoolyear}"/>
+						<Picker x:Name="cbxSemester" Title="{x:Static resource:Resources.ChooseSemester}" SelectedItem="{Binding Semester}">
 							<Picker.ItemsSource>
 								<x:Array Type="{x:Type x:String}">
 									<x:String>HK01</x:String>
@@ -39,13 +40,13 @@
 								</x:Array>
 							</Picker.ItemsSource>
 						</Picker>
-						<Picker x:Name="cbxLecturer" Title="Chọn họ và tên giảng viên:" SelectedItem="{Binding Fullname}"/>
-						<Picker x:Name="cbxWeek" Title="Chọn tuần:" SelectedItem="{Binding Week}"/>
+						<Picker x:Name="cbxLecturer" Title="{x:Static resource:Resources.ChooseLecturer}" SelectedItem="{Binding Fullname}"/>
+						<Picker x:Name="cbxWeek" Title="{x:Static resource:Resources.ChooseWeek}" SelectedItem="{Binding Week}"/>
 					</StackLayout>
-					<Button Text="Xem thời khóa biểu"
+					<Button Text="{x:Static resource:Resources.ViewSchedule}"
                         Command="{Binding SubmitCommand}"
                         BackgroundColor="{StaticResource Primary}" />
-					<Button x:Name="btnReload" Text="Tải lại"
+					<Button x:Name="btnReload" Text="{x:Static resource:Resources.Reload}"
 						Command="{Binding ReloadCommand}"
 						BackgroundColor="LawnGreen"/>
 				</StackLayout>

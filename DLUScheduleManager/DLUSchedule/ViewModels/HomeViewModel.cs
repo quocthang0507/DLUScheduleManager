@@ -80,7 +80,7 @@ namespace DLUSchedule.ViewModels
 			{
 				string professorID = HomePage.Instance.MLecturers.All.FirstOrDefault(x => x.ProfessorName == fullname).ProfessorID;
 				int realWeek = HomePage.Instance.MWeeks.DisplayWeekToRealWeek(week);
-				Shell.Current.GoToAsync($"{nameof(SchedulePage)}?{nameof(Schoolyear)}={schoolyear}&{nameof(Semester)}={semester}&{nameof(Week)}={realWeek}&ProfessorID={professorID}");
+				_ = Shell.Current.GoToAsync($"{nameof(SchedulePage)}?{nameof(Schoolyear)}={schoolyear}&{nameof(Semester)}={semester}&{nameof(Week)}={realWeek}&ProfessorID={professorID}");
 			}
 		}
 	}
