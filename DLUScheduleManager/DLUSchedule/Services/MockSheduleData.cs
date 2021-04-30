@@ -1,5 +1,6 @@
 ﻿using DLUSchedule.Models;
 using DLUSchedule.Utils;
+using DLUSchedule.Views;
 using HtmlAgilityPack;
 using System;
 using System.Collections.Generic;
@@ -13,6 +14,9 @@ namespace DLUSchedule.Services
 	public class MockSheduleData
 	{
 		private HtmlDocument htmlDoc;
+		private int weekNumber;
+		private DateTime beginDate;
+		private string[] dayOfWeek = { "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday" };
 
 		/// <summary>
 		/// Thời khóa biểu các ngày trong tuần
@@ -26,6 +30,7 @@ namespace DLUSchedule.Services
 
 		public MockSheduleData(string schoolyear, string semester, int weekNumber, string professorID)
 		{
+			this.weekNumber = weekNumber;
 			WeekSchedule = new List<Day>();
 			if (Common.IsNullOrWhitespace(schoolyear, semester, professorID))
 				throw new ArgumentNullException("Please use the constructor with four parameters first");
@@ -47,11 +52,14 @@ namespace DLUSchedule.Services
 				.Where(tr => tr.Elements("td").Count() > 1)
 				.Select(tr => tr.Elements("td").Select(td => td.InnerText.Trim()).ToList())
 				.ToList();
+			beginDate = HomePage.Instance.MWeeks.All.First(x => x.Week == weekNumber).GetFirstDayOfWeek;
 			for (int i = 0; i < 7; i++)
 			{
 				List<string> row = table[i];
 				Day day = new Day();
-
+				day.Date = beginDate.AddDays(i);
+				day.DayOfWeek = Properties.Resources.ResourceManager.GetString(dayOfWeek[i]);
+				day.DayOfWeek += $"\n({day.Date.ToString("d", Properties.Resources.Culture)})";
 				foreach (var session in row)
 				{
 					Subject subject = new Subject(session);

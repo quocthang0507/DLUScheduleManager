@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using DLUSchedule.Properties;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -78,21 +79,21 @@ namespace DLUSchedule.Utils
 		}
 
 		/// <summary>
-		/// Lấy số tuần của thời gian hiện tại
+		/// Lấy số tuần của thời gian cụ thể
 		/// </summary>
 		/// <param name="dateTime"></param>
 		/// <returns></returns>
 		public static int GetWeekOfYear(DateTime dateTime)
 		{
 			// Gets the Calendar instance associated with a CultureInfo.
-			CultureInfo myCI = new CultureInfo("en-US");
-			Calendar myCal = myCI.Calendar;
+			CultureInfo cultureInfo = DLUSchedule.Properties.Resources.Culture;
+			Calendar calendar = cultureInfo.Calendar;
 
 			// Gets the DTFI properties required by GetWeekOfYear.
-			CalendarWeekRule myCWR = myCI.DateTimeFormat.CalendarWeekRule;
-			DayOfWeek myFirstDOW = myCI.DateTimeFormat.FirstDayOfWeek;
+			CalendarWeekRule rule = cultureInfo.DateTimeFormat.CalendarWeekRule;
+			DayOfWeek firstDayOfWeek = cultureInfo.DateTimeFormat.FirstDayOfWeek;
 
-			return myCal.GetWeekOfYear(dateTime, myCWR, myFirstDOW);
+			return calendar.GetWeekOfYear(dateTime, rule, firstDayOfWeek);
 		}
 
 		/// <summary>
@@ -127,6 +128,43 @@ namespace DLUSchedule.Utils
 					return false;
 			}
 			return true;
+		}
+
+		/// <summary>
+		/// Dựa vào thời gian cụ thể, trả về ngày đầu tuần
+		/// </summary>
+		/// <param name="dt"></param>
+		/// <param name="startOfWeek"></param>
+		/// <returns></returns>
+		public static DateTime GetStartOfWeek(DateTime dt, DayOfWeek startOfWeek)
+		{
+			int diff = (7 + (dt.DayOfWeek - startOfWeek)) % 7;
+			return dt.AddDays(-1 * diff).Date;
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="year"></param>
+		/// <param name="weekNum"></param>
+		/// <param name="rule"></param>
+		/// <returns></returns>
+		public static DateTime GetFirstDayOfWeek(int year, int weekNum, DayOfWeek startOfWeek)
+		{
+			DateTime jan1 = new DateTime(year, 1, 1);
+			int daysOffset = DayOfWeek.Monday - jan1.DayOfWeek;
+			DateTime firstMonday = jan1.AddDays(daysOffset);
+
+			var cal = Resources.Culture.Calendar;
+			int firstWeek = cal.GetWeekOfYear(firstMonday, Resources.Culture.DateTimeFormat.CalendarWeekRule, startOfWeek);
+
+			if (firstWeek <= 1)
+			{
+				weekNum -= 1;
+			}
+
+			DateTime result = firstMonday.AddDays(weekNum * 7);
+			return result;
 		}
 	}
 }

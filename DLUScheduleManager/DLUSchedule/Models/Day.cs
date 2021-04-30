@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace DLUSchedule.Models
 {
@@ -12,6 +13,9 @@ namespace DLUSchedule.Models
 		/// </summary>
 		public string DayOfWeek { get; set; }
 		/// <summary>
+		/// Ngày tháng
+		/// </summary>
+		public DateTime Date { get; set; }
 		/// Các môn học trong ngày
 		/// </summary>
 		public List<Subject> Subjects = new List<Subject>();

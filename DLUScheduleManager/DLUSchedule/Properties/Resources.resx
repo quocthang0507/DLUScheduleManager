@@ -135,6 +135,9 @@
   <data name="ChooseYear" xml:space="preserve">
     <value>Choose school year:</value>
   </data>
+  <data name="DayOfWeek" xml:space="preserve">
+    <value>Day of week</value>
+  </data>
   <data name="Friday" xml:space="preserve">
     <value>Friday</value>
   </data>

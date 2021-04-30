@@ -1,4 +1,7 @@
-﻿namespace DLUSchedule.Models
+﻿using DLUSchedule.Utils;
+using System;
+
+namespace DLUSchedule.Models
 {
 	/// <summary>
 	/// Tuần học (lấy từ hệ thống Quản lý giảng đường)
@@ -25,6 +28,17 @@
 		/// Số tuần trong năm (dạng chữ)
 		/// </summary>
 		public string WeekOfYear2 { get; set; }
-
+		/// <summary>
+		/// Lấy ngày bắt đầu của tuần
+		/// </summary>
+		public DateTime GetFirstDayOfWeek
+		{
+			get
+			{
+				string[] arr = Week2.Split('$');
+				int week = Convert.ToInt32(arr[0]) - 1, year = Convert.ToInt32(arr[1]);
+				return Common.GetFirstDayOfWeek(year, week, DayOfWeek.Monday);
+			}
+		}
 	}
 }

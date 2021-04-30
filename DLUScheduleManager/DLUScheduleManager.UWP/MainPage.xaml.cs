@@ -6,6 +6,8 @@
 		{
 			this.InitializeComponent();
 
+			Syncfusion.SfDataGrid.XForms.UWP.SfDataGridRenderer.Init();
+
 			LoadApplication(new DLUSchedule.App());
 		}
 	}

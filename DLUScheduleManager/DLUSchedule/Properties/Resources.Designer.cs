@@ -115,6 +115,15 @@ namespace DLUSchedule.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Day of week.
+        /// </summary>
+        internal static string DayOfWeek {
+            get {
+                return ResourceManager.GetString("DayOfWeek", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Friday.
         /// </summary>
         internal static string Friday {

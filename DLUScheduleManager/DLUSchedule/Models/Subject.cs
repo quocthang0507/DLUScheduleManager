@@ -65,7 +65,7 @@ namespace DLUSchedule.Models
 		{
 			if (Common.IsNullOrWhitespace(Name, @Class, Period, TaughtSession, RoomID))
 				return string.Empty;
-			return $"-Môn: {Name}\n-Nhóm: {Group}\n-Lớp: {Class}\n-Tiết: {Period}\n-Đã dạy: {TaughtSession}\n-Phòng: {RoomID}";
+			return $"- Môn: {Name}\n- Nhóm: {Group}\n- Lớp: {Class}\n- Tiết: {Period}\n- Đã dạy: {TaughtSession}\n- Phòng: {RoomID}";
 		}
 	}
 }

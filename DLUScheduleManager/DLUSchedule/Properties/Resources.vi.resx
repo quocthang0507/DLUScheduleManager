@@ -135,6 +135,9 @@
   <data name="ChooseYear" xml:space="preserve">
     <value>Chọn năm học:</value>
   </data>
+  <data name="DayOfWeek" xml:space="preserve">
+    <value>Thứ</value>
+  </data>
   <data name="Friday" xml:space="preserve">
     <value>Thứ sáu</value>
   </data>

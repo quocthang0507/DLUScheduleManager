@@ -27,14 +27,11 @@ namespace DLUSchedule.Views
 			BindingContext = model;
 
 			model.DisplayAlertAction += () => DisplayAlert("Lỗi", "Không được bỏ trống ô này!", "Đồng ý");
-			model.ReloadAction += () => PopulateLecturersAndWeeks();
+			model.ReloadAction += () => PopulateLecturersAndWeeksAsync();
 			Appearing += HomePage_Appearing;
 
 			cbxSchoolYear.SelectedIndexChanged += Combobox_SelectedIndexChanged;
 			cbxSemester.SelectedIndexChanged += Combobox_SelectedIndexChanged;
-
-			PopulateSchoolyears();
-			SetCurrentSemester();
 
 			singleton = this;
 		}
@@ -44,13 +41,14 @@ namespace DLUSchedule.Views
 		{
 			if (cbxSemester.SelectedItem != null && cbxSchoolYear.SelectedItem != null)
 			{
-				PopulateLecturersAndWeeks();
+				_ = PopulateLecturersAndWeeksAsync();
 			}
 		}
 
 		private void HomePage_Appearing(object sender, EventArgs e)
 		{
-			// throw new NotImplementedException();
+			PopulateSchoolyears();
+			SetCurrentSemester();
 		}
 		#endregion
 
@@ -124,12 +122,12 @@ namespace DLUSchedule.Views
 		/// <summary>
 		/// Tải lại các nội dung khi học kỳ hoặc tên giảng viên bị thay đổi
 		/// </summary>
-		private void PopulateLecturersAndWeeks()
+		private async Task PopulateLecturersAndWeeksAsync()
 		{
-			_ = PopulateLecturersInSemesterAsync(cbxSchoolYear.SelectedItem as string, cbxSemester.SelectedItem as string);
+			await PopulateLecturersInSemesterAsync(cbxSchoolYear.SelectedItem as string, cbxSemester.SelectedItem as string);
 			cbxLecturer.SelectedIndex = 0;
 
-			_ = PopulateWeeksInSemesterAsync(cbxSchoolYear.SelectedItem as string, cbxSemester.SelectedItem as string);
+			await PopulateWeeksInSemesterAsync(cbxSchoolYear.SelectedItem as string, cbxSemester.SelectedItem as string);
 			if (MWeeks.All != null)
 			{
 				int numberOfWeeks = Common.GetWeekOfYear(DateTime.Now);

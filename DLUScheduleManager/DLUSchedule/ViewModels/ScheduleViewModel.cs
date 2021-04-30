@@ -1,4 +1,5 @@
-﻿using Xamarin.Forms;
+﻿using System.Data;
+using Xamarin.Forms;
 
 namespace DLUSchedule.ViewModels
 {
@@ -8,14 +9,10 @@ namespace DLUSchedule.ViewModels
 		QueryProperty(nameof(ProfessorID), nameof(ProfessorID))]
 	public class ScheduleViewModel : BaseViewModel
 	{
+		public DataTable Schedule { get; set; }
 		public string Schoolyear { get; set; }
 		public string Semester { get; set; }
 		public string ProfessorID { get; set; }
 		public int Week { get; set; }
-
-		public ScheduleViewModel()
-		{
-			Title = "Thời khóa biểu giảng viên";
-		}
 	}
 }
