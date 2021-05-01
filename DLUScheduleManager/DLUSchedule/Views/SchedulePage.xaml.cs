@@ -1,9 +1,9 @@
 ﻿using DLUSchedule.Models;
 using DLUSchedule.Services;
 using DLUSchedule.ViewModels;
-using Syncfusion.SfDataGrid.XForms;
 using System;
-using System.Data;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -19,10 +19,8 @@ namespace DLUSchedule.Views
 
 		public SchedulePage()
 		{
+			Xamarin.Forms.DataGrid.DataGridComponent.Init();
 			InitializeComponent();
-			gridSchedule.GridStyle.GridCellBorderColor = Color.Black;
-			gridSchedule.GridStyle.HeaderCellBorderColor = Color.Black;
-			gridSchedule.QueryRowHeight += GridSchedule_QueryRowHeight;
 
 			BindingContext = model;
 
@@ -35,31 +33,20 @@ namespace DLUSchedule.Views
 			Task.Run(() =>
 			{
 				MSchedule = new MockSheduleData(model.Schoolyear, model.Semester, model.Week, model.ProfessorID);
-				DataTable dataTable = new DataTable();
-				dataTable.Columns.Add(Properties.Resources.DayOfWeek, typeof(string));
-				dataTable.Columns.Add(Properties.Resources.Morning, typeof(string));
-				dataTable.Columns.Add(Properties.Resources.Afternoon, typeof(string));
-				dataTable.Columns.Add(Properties.Resources.Night, typeof(string));
+				List<DisplayedDay> days = new List<DisplayedDay>();
 				foreach (var day in MSchedule.WeekSchedule)
 				{
 					ParseSessions(day, out string morning, out string afternoon, out string night);
-					dataTable.Rows.Add(day.DayOfWeek, morning, afternoon, night);
+					days.Add(new DisplayedDay(day.DayOfWeek, morning, afternoon, night));
 				}
 				Application.Current.Dispatcher.BeginInvokeOnMainThread(() =>
 				{
-					gridSchedule.ItemsSource = dataTable;
+					ChangeRowHeight(days);
 				});
+				model.ItemsSource = days;
 			});
 		}
 
-		private void GridSchedule_QueryRowHeight(object sender, QueryRowHeightEventArgs e)
-		{
-			if (e.RowIndex > 0)
-			{
-				e.Height = SfDataGridHelpers.GetRowHeight(gridSchedule, e.RowIndex);
-				e.Handled = true;
-			}
-		}
 		#endregion
 
 		#region Methods
@@ -79,6 +66,20 @@ namespace DLUSchedule.Views
 						morning += $"{subject}\n";
 				}
 			}
+		}
+
+		private int GetMaxLinesToDisplay(DisplayedDay day)
+		{
+			int c1 = day.Morning.Count(c => c == '\n'),
+			c2 = day.Afternoon.Count(c => c == '\n'),
+			c3 = day.Night.Count(c => c == '\n');
+			return Math.Max(2, Math.Max(c1, Math.Max(c2, c3)));
+		}
+
+		private void ChangeRowHeight(List<DisplayedDay> days)
+		{
+			var max = days.Select(x => GetMaxLinesToDisplay(x)).Max();
+			gridSchedule.RowHeight = max * 25;
 		}
 		#endregion
 	}

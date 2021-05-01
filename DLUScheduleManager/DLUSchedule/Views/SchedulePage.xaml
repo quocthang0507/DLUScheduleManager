@@ -2,9 +2,9 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
 			 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
 			 xmlns:resource ="clr-namespace:DLUSchedule.Properties"
-			 xmlns:syncfusion="clr-namespace:Syncfusion.SfDataGrid.XForms;assembly=Syncfusion.SfDataGrid.XForms"
 			 x:Class="DLUSchedule.Views.SchedulePage"
 			 xmlns:vm="clr-namespace:DLUSchedule.ViewModels" x:DataType="vm:ScheduleViewModel"
+			 xmlns:dg="clr-namespace:Xamarin.Forms.DataGrid;assembly=Xamarin.Forms.DataGrid"
 			 Title="{x:Static resource:Resources.Title}" >
 
 	<ContentPage.BindingContext>
@@ -13,18 +13,43 @@
 
 	<ContentPage.Resources>
 		<ResourceDictionary>
-			<Color x:Key="Accent">#96d1ff</Color>
-			<Color x:Key="Header">#96d1ff</Color>
+			<Color x:Key="Accent">#BBFFC7</Color>
+			<Color x:Key="Header">#E9ECEF</Color>
+			<Color x:Key="Active">#ECECEC</Color>
 		</ResourceDictionary>
 	</ContentPage.Resources>
 
 	<ContentPage.Content>
-		<!--<syncfusion:SfDataGrid x:Name="gridSchedule" ItemsSource="{Binding Schedule}">-->
-		<syncfusion:SfDataGrid x:Name="gridSchedule" 
-			VerticalOptions="FillAndExpand"
-			CanMaintainScrollPosition="True"
-			SelectionMode="Single" ColumnSizer="Star"
-			VerticalOverScrollMode="Bounce">
-		</syncfusion:SfDataGrid>
+		<dg:DataGrid x:Name="gridSchedule" HeaderBackground="{StaticResource Header}" HeaderHeight="40"
+					 PullToRefreshCommand="{Binding RefreshCommand}" IsRefreshing="{Binding IsRefreshing}" 
+					 SelectionEnabled="True" BorderColor="Black" ItemsSource="{Binding ItemsSource}"
+					 ActiveRowColor="{StaticResource Active}" HorizontalOptions="FillAndExpand">
+			<dg:DataGrid.HeaderFontSize>
+				<OnIdiom  x:TypeArguments="x:Double">
+					<OnIdiom.Tablet>15</OnIdiom.Tablet>
+					<OnIdiom.Phone>13</OnIdiom.Phone>
+					<OnIdiom.Desktop>16</OnIdiom.Desktop>
+				</OnIdiom>
+			</dg:DataGrid.HeaderFontSize>
+			<dg:DataGrid.Columns>
+				<dg:DataGridColumn Title="{x:Static resource:Resources.DayOfWeek}" 
+								   Width="0.5*" PropertyName="DayOfWeek"/>
+
+				<dg:DataGridColumn Title="{x:Static resource:Resources.Morning}" 
+								   Width="*" PropertyName="Morning"/>
+
+				<dg:DataGridColumn Title="{x:Static resource:Resources.Afternoon}" 
+								   Width="*" PropertyName="Afternoon"/>
+
+				<dg:DataGridColumn Title="{x:Static resource:Resources.Night}" 
+								   Width="*" PropertyName="Night"/>
+			</dg:DataGrid.Columns>
+			<dg:DataGrid.RowsBackgroundColorPalette>
+				<dg:PaletteCollection>
+					<Color>#F2F2F2</Color>
+					<Color>#FFFFFF</Color>
+				</dg:PaletteCollection>
+			</dg:DataGrid.RowsBackgroundColorPalette>
+		</dg:DataGrid>
 	</ContentPage.Content>
 </ContentPage>

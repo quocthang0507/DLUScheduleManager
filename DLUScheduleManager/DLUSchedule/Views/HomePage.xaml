@@ -8,7 +8,7 @@
 
 	<ContentPage.Resources>
 		<ResourceDictionary>
-			<Color x:Key="Accent">#96d1ff</Color>
+			<Color x:Key="SuccessButton">#28a745</Color>
 		</ResourceDictionary>
 	</ContentPage.Resources>
 
@@ -18,38 +18,54 @@
 				<RowDefinition Height="Auto" />
 				<RowDefinition Height="*" />
 			</Grid.RowDefinitions>
-			<StackLayout BackgroundColor="White" VerticalOptions="FillAndExpand" HorizontalOptions="Fill">
-				<StackLayout Orientation="Horizontal" HorizontalOptions="Center" VerticalOptions="Center">
+			<StackLayout VerticalOptions="FillAndExpand" HorizontalOptions="Fill">
+				<StackLayout Orientation="Vertical" HorizontalOptions="Center" VerticalOptions="Center">
 					<ContentView Padding="0,10,0,10" VerticalOptions="FillAndExpand">
 						<Image Source="logo_DLU.png" VerticalOptions="Center"/>
 					</ContentView>
+					<Label Text="{x:Static resource:Resources.Title}" FontSize="Title" 
+						   HorizontalTextAlignment="Center" TextTransform="Uppercase"/>
 				</StackLayout>
 			</StackLayout>
 			<ScrollView Grid.Row="1">
-				<StackLayout Orientation="Vertical" Padding="10,20,10,20" Spacing="10">
-					<Label Text="{x:Static resource:Resources.Title}" FontSize="Title" HorizontalTextAlignment="Center"/>
-					<Label Text="{x:Static resource:Resources.Address}" FontSize="Title" HorizontalTextAlignment="Center" TextTransform="Uppercase"/>
-					<StackLayout Orientation="Vertical" Spacing="20">
-						<Picker x:Name="cbxSchoolYear" Title="{x:Static resource:Resources.ChooseYear}" SelectedItem="{Binding Schoolyear}"/>
-						<Picker x:Name="cbxSemester" Title="{x:Static resource:Resources.ChooseSemester}" SelectedItem="{Binding Semester}">
-							<Picker.ItemsSource>
-								<x:Array Type="{x:Type x:String}">
-									<x:String>HK01</x:String>
-									<x:String>HK02</x:String>
-									<x:String>HK03</x:String>
-								</x:Array>
-							</Picker.ItemsSource>
-						</Picker>
-						<Picker x:Name="cbxLecturer" Title="{x:Static resource:Resources.ChooseLecturer}" SelectedItem="{Binding Fullname}"/>
-						<Picker x:Name="cbxWeek" Title="{x:Static resource:Resources.ChooseWeek}" SelectedItem="{Binding Week}"/>
+				<Grid>
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="*"/>
+						<ColumnDefinition Width="5*"/>
+						<ColumnDefinition Width="*"/>
+					</Grid.ColumnDefinitions>
+					<StackLayout Orientation="Vertical" Padding="10,20,10,20" Spacing="10" Grid.Column="1">
+						<StackLayout Orientation="Vertical" Spacing="20">
+							<Picker x:Name="cbxSchoolYear" 
+								Title="{x:Static resource:Resources.ChooseYear}" 
+								SelectedItem="{Binding Schoolyear}"	/>
+							<Picker x:Name="cbxSemester" 
+								Title="{x:Static resource:Resources.ChooseSemester}" 
+								SelectedItem="{Binding Semester}" >
+								<Picker.ItemsSource>
+									<x:Array Type="{x:Type x:String}">
+										<x:String>HK01</x:String>
+										<x:String>HK02</x:String>
+										<x:String>HK03</x:String>
+									</x:Array>
+								</Picker.ItemsSource>
+							</Picker>
+							<Picker x:Name="cbxLecturer" 
+								Title="{x:Static resource:Resources.ChooseLecturer}" 
+								SelectedItem="{Binding Fullname}" />
+							<Picker x:Name="cbxWeek" 
+								Title="{x:Static resource:Resources.ChooseWeek}" 
+								SelectedItem="{Binding Week}" />
+						</StackLayout>
+
+						<Button Text="{x:Static resource:Resources.ViewSchedule}"
+							Command="{Binding SubmitCommand}"/>
+
+						<Button x:Name="btnReload" Text="{x:Static resource:Resources.Reload}"
+							Command="{Binding ReloadCommand}" BackgroundColor="{StaticResource SuccessButton}"/>
+
 					</StackLayout>
-					<Button Text="{x:Static resource:Resources.ViewSchedule}"
-                        Command="{Binding SubmitCommand}"
-                        BackgroundColor="{StaticResource Primary}" />
-					<Button x:Name="btnReload" Text="{x:Static resource:Resources.Reload}"
-						Command="{Binding ReloadCommand}"
-						BackgroundColor="LawnGreen"/>
-				</StackLayout>
+				</Grid>
 			</ScrollView>
 		</Grid>
 	</ContentPage.Content>

@@ -7,26 +7,36 @@
     -->
     <Application.Resources>
         <ResourceDictionary>
-            <Color x:Key="Primary">#2196F3</Color>
+			<Color x:Key="Primary">#79A227</Color>
+			<Color x:Key="PrimaryButton">#007bff</Color>
+			<Color x:Key="SecondaryButton">#6c757d</Color>
+			<Color x:Key="SuccessButton">#28a745</Color>
+			<Color x:Key="InfoButton">#17a2b8</Color>
+			<Color x:Key="Picker">#E9ECEF</Color>
             <Style TargetType="Button">
                 <Setter Property="TextColor" Value="White"></Setter>
-                <Setter Property="VisualStateManager.VisualStateGroups">
-                    <VisualStateGroupList>
-                        <VisualStateGroup x:Name="CommonStates">
-                            <VisualState x:Name="Normal">
-                                <VisualState.Setters>
-                                    <Setter Property="BackgroundColor" Value="{StaticResource Primary}" />
-                                </VisualState.Setters>
-                            </VisualState>
-                            <VisualState x:Name="Disabled">
-                                <VisualState.Setters>
-                                    <Setter Property="BackgroundColor" Value="#332196F3" />
-                                </VisualState.Setters>
-                            </VisualState>
-                        </VisualStateGroup>
-                    </VisualStateGroupList>
-                </Setter>
-            </Style>
+                <Setter Property="CornerRadius" Value="2"></Setter>
+				<Setter Property="VisualStateManager.VisualStateGroups">
+					<VisualStateGroupList>
+						<VisualStateGroup x:Name="CommonStates">
+							<VisualState x:Name="Normal">
+								<VisualState.Setters>
+									<Setter Property="BackgroundColor" Value="{StaticResource PrimaryButton}" />
+								</VisualState.Setters>
+							</VisualState>
+							<VisualState x:Name="Disabled">
+								<VisualState.Setters>
+									<Setter Property="BackgroundColor" Value="#332196F3" />
+								</VisualState.Setters>
+							</VisualState>
+						</VisualStateGroup>
+					</VisualStateGroupList>
+				</Setter>
+			</Style>
+			<Style TargetType="Picker">
+				<Setter Property="BackgroundColor" Value="{StaticResource Picker}"></Setter>
+				<Setter Property="TitleColor" Value="Black"></Setter>
+			</Style>
         </ResourceDictionary>        
     </Application.Resources>
 </Application>
