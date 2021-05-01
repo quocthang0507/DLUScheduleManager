@@ -1,8 +1,10 @@
 ﻿using DLUSchedule.Services;
 using DLUSchedule.Utils;
 using DLUSchedule.ViewModels;
+using LiteDB;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Xamarin.Forms;
@@ -15,11 +17,20 @@ namespace DLUSchedule.Views
 	{
 		private readonly HomeViewModel model = new HomeViewModel();
 		private static HomePage singleton;
+		private static LiteDBHelper database;
 
 		public MockWeekData MWeeks { get; protected set; }
 		public MockLecturerData MLecturers { get; protected set; }
-
 		public static HomePage Instance { get { return singleton; } }
+		public static LiteDBHelper LiteDB
+		{
+			get
+			{
+				if (database == null)
+					database = new LiteDBHelper(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "DLUSchedule.db"));
+				return database;
+			}
+		}
 
 		public HomePage()
 		{
@@ -34,6 +45,8 @@ namespace DLUSchedule.Views
 			cbxSemester.SelectedIndexChanged += Combobox_SelectedIndexChanged;
 
 			singleton = this;
+
+			LoadFromDatabase();
 		}
 
 		#region Events
@@ -50,6 +63,7 @@ namespace DLUSchedule.Views
 			PopulateSchoolyears();
 			SetCurrentSemester();
 		}
+
 		#endregion
 
 		#region Methods
@@ -138,6 +152,20 @@ namespace DLUSchedule.Views
 					cbxWeek.SelectedIndex = 0;
 			}
 		}
+
+		private void LoadFromDatabase()
+		{
+			var saved = LiteDB.GetOne();
+			if (saved != null)
+			{
+				cbxSemester.SelectedItem = saved.Semester;
+				cbxSchoolYear.SelectedItem = saved.Schoolyear;
+				cbxLecturer.SelectedItem = saved.Fullname;
+				cbxWeek.SelectedItem = saved.Week;
+				chkSave.IsChecked = saved.IsSaved;
+			}
+		}
 		#endregion
+
 	}
 }

@@ -178,6 +178,15 @@ namespace DLUSchedule.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Save this for the next time.
+        /// </summary>
+        internal static string SaveLogin {
+            get {
+                return ResourceManager.GetString("SaveLogin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Sunday.
         /// </summary>
         internal static string Sunday {

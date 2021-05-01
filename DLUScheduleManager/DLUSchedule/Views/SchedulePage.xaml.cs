@@ -33,17 +33,21 @@ namespace DLUSchedule.Views
 			Task.Run(() =>
 			{
 				MSchedule = new MockSheduleData(model.Schoolyear, model.Semester, model.Week, model.ProfessorID);
-				List<DisplayedDay> days = new List<DisplayedDay>();
-				foreach (var day in MSchedule.WeekSchedule)
-				{
-					ParseSessions(day, out string morning, out string afternoon, out string night);
-					days.Add(new DisplayedDay(day.DayOfWeek, morning, afternoon, night));
-				}
+				//List<DisplayedDay> days = new List<DisplayedDay>();
+				//foreach (var day in MSchedule.WeekSchedule)
+				//{
+				//	ParseSessions(day, out string morning, out string afternoon, out string night);
+				//	days.Add(new DisplayedDay(day.DayOfWeek, morning, afternoon, night));
+				//}
+				//Application.Current.Dispatcher.BeginInvokeOnMainThread(() =>
+				//{
+				//	ChangeRowHeight(days);
+				//});
+				//model.ItemsSource = days;
 				Application.Current.Dispatcher.BeginInvokeOnMainThread(() =>
 				{
-					ChangeRowHeight(days);
+					webviewSchedule.Source = new HtmlWebViewSource { Html = MSchedule.HtmlSchedule };
 				});
-				model.ItemsSource = days;
 			});
 		}
 
@@ -76,11 +80,11 @@ namespace DLUSchedule.Views
 			return Math.Max(2, Math.Max(c1, Math.Max(c2, c3)));
 		}
 
-		private void ChangeRowHeight(List<DisplayedDay> days)
-		{
-			var max = days.Select(x => GetMaxLinesToDisplay(x)).Max();
-			gridSchedule.RowHeight = max * 25;
-		}
+		//private void ChangeRowHeight(List<DisplayedDay> days)
+		//{
+		//	var max = days.Select(x => GetMaxLinesToDisplay(x)).Max();
+		//	gridSchedule.RowHeight = max * 25;
+		//}
 		#endregion
 	}
 }

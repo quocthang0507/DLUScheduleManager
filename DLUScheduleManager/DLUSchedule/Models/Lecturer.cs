@@ -1,6 +1,4 @@
-﻿using SQLite;
-
-namespace DLUSchedule.Models
+﻿namespace DLUSchedule.Models
 {
 	/// <summary>
 	/// Thông tin giảng viên (Lấy từ hệ thống quản lý giảng đường)
@@ -10,7 +8,6 @@ namespace DLUSchedule.Models
 		/// <summary>
 		/// Mã giảng viên
 		/// </summary>
-		[PrimaryKey]
 		public string ProfessorID { get; set; }
 		/// <summary>
 		/// Tên giảng viên

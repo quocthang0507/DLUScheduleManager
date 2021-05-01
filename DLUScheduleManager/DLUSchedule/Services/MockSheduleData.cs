@@ -22,6 +22,7 @@ namespace DLUSchedule.Services
 		/// Thời khóa biểu các ngày trong tuần
 		/// </summary>
 		public List<Day> WeekSchedule { get; protected set; }
+		public string HtmlSchedule { get; protected set; }
 
 		public MockSheduleData(List<Day> weekSchedule)
 		{
@@ -46,27 +47,28 @@ namespace DLUSchedule.Services
 		{
 			HtmlWeb htmlWeb = new HtmlWeb();
 			htmlDoc = htmlWeb.Load(url);
-			List<List<string>> table = htmlDoc.DocumentNode.SelectSingleNode("//table")
-				.Descendants("tr")
-				.Skip(1) // Skip <th>
-				.Where(tr => tr.Elements("td").Count() > 1)
-				.Select(tr => tr.Elements("td").Select(td => td.InnerText.Trim()).ToList())
-				.ToList();
-			beginDate = HomePage.Instance.MWeeks.All.First(x => x.Week == weekNumber).GetFirstDayOfWeek;
-			for (int i = 0; i < 7; i++)
-			{
-				List<string> row = table[i];
-				Day day = new Day();
-				day.Date = beginDate.AddDays(i);
-				day.DayOfWeek = Properties.Resources.ResourceManager.GetString(dayOfWeek[i]);
-				day.DayOfWeek += $"\n({day.Date.ToString("d", Properties.Resources.Culture)})";
-				foreach (var session in row)
-				{
-					Subject subject = new Subject(session);
-					day.Subjects.Add(subject);
-				}
-				WeekSchedule.Add(day);
-			}
+			HtmlSchedule = htmlDoc.Text;
+			//List<List<string>> table = htmlDoc.DocumentNode.SelectSingleNode("//table")
+			//	.Descendants("tr")
+			//	.Skip(1) // Skip <th>
+			//	.Where(tr => tr.Elements("td").Count() > 1)
+			//	.Select(tr => tr.Elements("td").Select(td => td.InnerText.Trim()).ToList())
+			//	.ToList();
+			//beginDate = HomePage.Instance.MWeeks.All.First(x => x.Week == weekNumber).GetFirstDayOfWeek;
+			//for (int i = 0; i < 7; i++)
+			//{
+			//	List<string> row = table[i];
+			//	Day day = new Day();
+			//	day.Date = beginDate.AddDays(i);
+			//	day.DayOfWeek = Properties.Resources.ResourceManager.GetString(dayOfWeek[i]);
+			//	day.DayOfWeek += $"\n({day.Date.ToString("d", Properties.Resources.Culture)})";
+			//	foreach (var session in row)
+			//	{
+			//		Subject subject = new Subject(session);
+			//		day.Subjects.Add(subject);
+			//	}
+			//	WeekSchedule.Add(day);
+			//}
 		}
 	}
 }

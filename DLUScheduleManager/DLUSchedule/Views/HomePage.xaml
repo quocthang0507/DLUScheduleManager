@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+			 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
 			 xmlns:resource ="clr-namespace:DLUSchedule.Properties"
-             x:Class="DLUSchedule.Views.HomePage"
-             xmlns:vm="clr-namespace:DLUSchedule.ViewModels" x:DataType="vm:HomeViewModel"
+			 x:Class="DLUSchedule.Views.HomePage"
+			 xmlns:vm="clr-namespace:DLUSchedule.ViewModels" x:DataType="vm:HomeViewModel"
 			 Title="{x:Static resource:Resources.Title}">
 
 	<ContentPage.Resources>
@@ -58,10 +58,19 @@
 								SelectedItem="{Binding Week}" />
 						</StackLayout>
 
-						<Button Text="{x:Static resource:Resources.ViewSchedule}"
-							Command="{Binding SubmitCommand}"/>
+						<Grid>
+							<Grid.ColumnDefinitions>
+								<ColumnDefinition Width="20"/>
+								<ColumnDefinition Width="*"/>
+							</Grid.ColumnDefinitions>
+							<CheckBox x:Name="chkSave" VerticalOptions="Center" IsChecked="{Binding IsSaved}"/>
+							<Label Text="{x:Static resource:Resources.SaveLogin}" Grid.Column="1" VerticalOptions="Center"/>
+						</Grid>
 
-						<Button x:Name="btnReload" Text="{x:Static resource:Resources.Reload}"
+						<Button Text="{x:Static resource:Resources.ViewSchedule}"
+							Command="{Binding SubmitCommand}" ImageSource="view.png"/>
+
+						<Button x:Name="btnReload" Text="{x:Static resource:Resources.Reload}" ImageSource="reload.png"
 							Command="{Binding ReloadCommand}" BackgroundColor="{StaticResource SuccessButton}"/>
 
 					</StackLayout>

@@ -14,6 +14,7 @@ namespace DLUSchedule.ViewModels
 		private string semester;
 		private string fullname;
 		private int week;
+		private bool isSaved;
 
 		public Action DisplayAlertAction;
 		public Action ReloadAction;
@@ -29,7 +30,7 @@ namespace DLUSchedule.ViewModels
 			set
 			{
 				schoolyear = value;
-				PropertyChanged(this, new PropertyChangedEventArgs("Schoolyear"));
+				PropertyChanged(this, new PropertyChangedEventArgs(nameof(Schoolyear)));
 			}
 		}
 		public string Semester
@@ -38,7 +39,7 @@ namespace DLUSchedule.ViewModels
 			set
 			{
 				semester = value;
-				PropertyChanged(this, new PropertyChangedEventArgs("Semester"));
+				PropertyChanged(this, new PropertyChangedEventArgs(nameof(Semester)));
 			}
 		}
 		public string Fullname
@@ -47,7 +48,7 @@ namespace DLUSchedule.ViewModels
 			set
 			{
 				fullname = value;
-				PropertyChanged(this, new PropertyChangedEventArgs("Fullname"));
+				PropertyChanged(this, new PropertyChangedEventArgs(nameof(Fullname)));
 			}
 		}
 		public int Week
@@ -56,7 +57,16 @@ namespace DLUSchedule.ViewModels
 			set
 			{
 				week = value;
-				PropertyChanged(this, new PropertyChangedEventArgs("Week"));
+				PropertyChanged(this, new PropertyChangedEventArgs(nameof(Week)));
+			}
+		}
+		public bool IsSaved
+		{
+			get { return isSaved; }
+			set
+			{
+				isSaved = value;
+				PropertyChanged(this, new PropertyChangedEventArgs(nameof(IsSaved)));
 			}
 		}
 
@@ -78,6 +88,8 @@ namespace DLUSchedule.ViewModels
 				DisplayAlertAction();
 			else
 			{
+				if (isSaved)
+					HomePage.LiteDB.Insert(this);
 				string professorID = HomePage.Instance.MLecturers.All.FirstOrDefault(x => x.ProfessorName == fullname).ProfessorID;
 				int realWeek = HomePage.Instance.MWeeks.DisplayWeekToRealWeek(week);
 				_ = Shell.Current.GoToAsync($"{nameof(SchedulePage)}?{nameof(Schoolyear)}={schoolyear}&{nameof(Semester)}={semester}&{nameof(Week)}={realWeek}&ProfessorID={professorID}");

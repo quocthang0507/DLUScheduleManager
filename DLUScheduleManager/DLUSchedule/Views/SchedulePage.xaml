@@ -20,10 +20,13 @@
 	</ContentPage.Resources>
 
 	<ContentPage.Content>
-		<dg:DataGrid x:Name="gridSchedule" HeaderBackground="{StaticResource Header}" HeaderHeight="40"
+		<WebView x:Name="webviewSchedule" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"/>
+
+		<!--<dg:DataGrid x:Name="gridSchedule" HeaderBackground="{StaticResource Header}" HeaderHeight="40" IsEnabled="False"
 					 PullToRefreshCommand="{Binding RefreshCommand}" IsRefreshing="{Binding IsRefreshing}" 
 					 SelectionEnabled="True" BorderColor="Black" ItemsSource="{Binding ItemsSource}"
-					 ActiveRowColor="{StaticResource Active}" HorizontalOptions="FillAndExpand">
+					 ActiveRowColor="{StaticResource Active}" HorizontalOptions="FillAndExpand"
+					 IsSortable="False">
 			<dg:DataGrid.HeaderFontSize>
 				<OnIdiom  x:TypeArguments="x:Double">
 					<OnIdiom.Tablet>15</OnIdiom.Tablet>
@@ -50,6 +53,6 @@
 					<Color>#FFFFFF</Color>
 				</dg:PaletteCollection>
 			</dg:DataGrid.RowsBackgroundColorPalette>
-		</dg:DataGrid>
+		</dg:DataGrid>-->
 	</ContentPage.Content>
 </ContentPage>

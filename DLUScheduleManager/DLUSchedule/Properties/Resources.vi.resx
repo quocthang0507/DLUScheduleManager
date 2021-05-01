@@ -156,6 +156,9 @@
   <data name="Saturday" xml:space="preserve">
     <value>Thứ bảy</value>
   </data>
+  <data name="SaveLogin" xml:space="preserve">
+    <value>Lưu lại cho lần mở tới</value>
+  </data>
   <data name="Sunday" xml:space="preserve">
     <value>Chủ nhật</value>
   </data>

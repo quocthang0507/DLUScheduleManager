@@ -1,5 +1,4 @@
 ﻿using DLUSchedule.Models;
-using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Threading.Tasks;
@@ -37,7 +36,7 @@ namespace DLUSchedule.ViewModels
 			set
 			{
 				dayOfWeek = value;
-				PropertyChanged(this, new PropertyChangedEventArgs("DayOfWeek"));
+				PropertyChanged(this, new PropertyChangedEventArgs(nameof(DayOfWeek)));
 			}
 		}
 
@@ -50,7 +49,7 @@ namespace DLUSchedule.ViewModels
 			set
 			{
 				morning = value;
-				PropertyChanged(this, new PropertyChangedEventArgs("Morning"));
+				PropertyChanged(this, new PropertyChangedEventArgs(nameof(Morning)));
 			}
 		}
 
@@ -63,7 +62,7 @@ namespace DLUSchedule.ViewModels
 			set
 			{
 				afternoon = value;
-				PropertyChanged(this, new PropertyChangedEventArgs("Afternoon"));
+				PropertyChanged(this, new PropertyChangedEventArgs(nameof(Afternoon)));
 			}
 		}
 
@@ -76,7 +75,7 @@ namespace DLUSchedule.ViewModels
 			set
 			{
 				night = value;
-				PropertyChanged(this, new PropertyChangedEventArgs("Night"));
+				PropertyChanged(this, new PropertyChangedEventArgs(nameof(Night)));
 			}
 		}
 
@@ -89,18 +88,17 @@ namespace DLUSchedule.ViewModels
 			set
 			{
 				isRefreshing = value;
-				PropertyChanged(this, new PropertyChangedEventArgs("IsRefreshing"));
+				PropertyChanged(this, new PropertyChangedEventArgs(nameof(IsRefreshing)));
 			}
 		}
 
 		public List<DisplayedDay> ItemsSource
 		{
 			get { return itemsSource; }
-			set 
-			{ 
+			set
+			{
 				itemsSource = value;
-				PropertyChanged(this, new PropertyChangedEventArgs("ItemsSource")); 
-				UpdateRowHeight(value);
+				PropertyChanged(this, new PropertyChangedEventArgs(nameof(ItemsSource)));
 			}
 		}
 
@@ -116,10 +114,6 @@ namespace DLUSchedule.ViewModels
 			IsRefreshing = true;
 			await Task.Delay(3000);
 			IsRefreshing = false;
-		}
-
-		private void UpdateRowHeight(List<DisplayedDay> value)
-		{
 		}
 	}
 }
