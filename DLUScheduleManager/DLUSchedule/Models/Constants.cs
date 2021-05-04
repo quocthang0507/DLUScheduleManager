@@ -15,5 +15,6 @@
 		public const string RegexSubjectRoom = @"-Phòng : (.*)";
 
 		public readonly static string[] DayOfWeek = { "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday" };
+		public const string DBName = "DLUSchedule.db";
 	}
 }

@@ -7,113 +7,57 @@ using Xamarin.Forms;
 
 namespace DLUSchedule.ViewModels
 {
-	[QueryProperty(nameof(Schoolyear), nameof(Schoolyear)),
-		QueryProperty(nameof(Semester), nameof(Semester)),
-		QueryProperty(nameof(Week), nameof(Week)),
-		QueryProperty(nameof(ProfessorID), nameof(ProfessorID))]
+	[QueryProperty(nameof(Login.Schoolyear), nameof(Login.Schoolyear)),
+		QueryProperty(nameof(Login.Semester), nameof(Login.Semester)),
+		QueryProperty(nameof(Login.Week), nameof(Login.Week)),
+		QueryProperty(nameof(Login.Lecturer.ProfessorID), nameof(Login.Lecturer.ProfessorID))]
 	public class ScheduleViewModel : BaseViewModel, INotifyPropertyChanged
 	{
-		private string dayOfWeek, morning, afternoon, night;
-		private bool isRefreshing;
-		private List<DisplayedDay> itemsSource = new List<DisplayedDay>();
-
-		public string Schoolyear { get; set; }
-		public string Semester { get; set; }
-		public string ProfessorID { get; set; }
-		public int Week { get; set; }
-		public ICommand RefreshCommand { get; set; }
+		public Login LoginModel { get; set; }
 
 #pragma warning disable CS0108 // Member hides inherited member; missing new keyword
-		public event PropertyChangedEventHandler PropertyChanged;
+		public event PropertyChangedEventHandler PropertyChanged = delegate { };
 #pragma warning restore CS0108 // Member hides inherited member; missing new keyword
-
-		public string DayOfWeek
+		public string Schoolyear
 		{
-			get
-			{
-				return dayOfWeek;
-			}
+			get { return LoginModel.Schoolyear; }
 			set
 			{
-				dayOfWeek = value;
-				PropertyChanged(this, new PropertyChangedEventArgs(nameof(DayOfWeek)));
+				LoginModel.Schoolyear = value;
+				PropertyChanged(this, new PropertyChangedEventArgs(nameof(Schoolyear)));
 			}
 		}
-
-		public string Morning
+		public string Semester
 		{
-			get
-			{
-				return morning;
-			}
+			get { return LoginModel.Semester; }
 			set
 			{
-				morning = value;
-				PropertyChanged(this, new PropertyChangedEventArgs(nameof(Morning)));
+				LoginModel.Semester = value;
+				PropertyChanged(this, new PropertyChangedEventArgs(nameof(Semester)));
 			}
 		}
-
-		public string Afternoon
+		public string ProfessorID
 		{
-			get
-			{
-				return afternoon;
-			}
+			get { return LoginModel.Lecturer.ProfessorID; }
 			set
 			{
-				afternoon = value;
-				PropertyChanged(this, new PropertyChangedEventArgs(nameof(Afternoon)));
+				LoginModel.Lecturer.ProfessorID = value;
+				PropertyChanged(this, new PropertyChangedEventArgs(nameof(ProfessorID)));
 			}
 		}
-
-		public string Night
+		public int Week
 		{
-			get
-			{
-				return night;
-			}
+			get { return LoginModel.Week; }
 			set
 			{
-				night = value;
-				PropertyChanged(this, new PropertyChangedEventArgs(nameof(Night)));
+				LoginModel.Week = value;
+				PropertyChanged(this, new PropertyChangedEventArgs(nameof(Week)));
 			}
 		}
-
-		public bool IsRefreshing
-		{
-			get
-			{
-				return isRefreshing;
-			}
-			set
-			{
-				isRefreshing = value;
-				PropertyChanged(this, new PropertyChangedEventArgs(nameof(IsRefreshing)));
-			}
-		}
-
-		public List<DisplayedDay> ItemsSource
-		{
-			get { return itemsSource; }
-			set
-			{
-				itemsSource = value;
-				PropertyChanged(this, new PropertyChangedEventArgs(nameof(ItemsSource)));
-			}
-		}
-
 		public ScheduleViewModel()
 		{
-			RefreshCommand = new Command(CommandRefresh);
+			LoginModel = new Login();
 		}
 
-#pragma warning disable VSTHRD100 // Avoid async void methods
-		private async void CommandRefresh()
-#pragma warning restore VSTHRD100 // Avoid async void methods
-		{
-			IsRefreshing = true;
-			await Task.Delay(3000);
-			IsRefreshing = false;
-		}
 	}
 }

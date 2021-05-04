@@ -1,4 +1,5 @@
-﻿using DLUSchedule.Services;
+﻿using DLUSchedule.Models;
+using DLUSchedule.Services;
 using DLUSchedule.Utils;
 using DLUSchedule.ViewModels;
 using LiteDB;
@@ -17,24 +18,16 @@ namespace DLUSchedule.Views
 	{
 		private readonly HomeViewModel model = new HomeViewModel();
 		private static HomePage singleton;
-		private static LiteDBHelper database;
 
 		public MockWeekData MWeeks { get; protected set; }
 		public MockLecturerData MLecturers { get; protected set; }
 		public static HomePage Instance { get { return singleton; } }
-		public static LiteDBHelper LiteDB
-		{
-			get
-			{
-				if (database == null)
-					database = new LiteDBHelper(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "DLUSchedule.db"));
-				return database;
-			}
-		}
+		public static LiteDBHelper db;
 
 		public HomePage()
 		{
 			InitializeComponent();
+			db = new LiteDBHelper(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), Constants.DBName));
 			BindingContext = model;
 
 			model.DisplayAlertAction += () => DisplayAlert("Lỗi", "Không được bỏ trống ô này!", "Đồng ý");
@@ -151,18 +144,20 @@ namespace DLUSchedule.Views
 				else
 					cbxWeek.SelectedIndex = 0;
 			}
+
+			LoadFromDatabase();
 		}
 
 		private void LoadFromDatabase()
 		{
-			var saved = LiteDB.GetOne();
+			var saved = db.GetOne();
 			if (saved != null)
 			{
 				cbxSemester.SelectedItem = saved.Semester;
 				cbxSchoolYear.SelectedItem = saved.Schoolyear;
-				cbxLecturer.SelectedItem = saved.Fullname;
+				cbxLecturer.SelectedItem = saved.Lecturer.ProfessorName;
 				cbxWeek.SelectedItem = saved.Week;
-				chkSave.IsChecked = saved.IsSaved;
+				chkSave.IsChecked = true;
 			}
 		}
 		#endregion

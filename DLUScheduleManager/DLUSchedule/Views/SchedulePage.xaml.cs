@@ -2,7 +2,6 @@
 using DLUSchedule.Services;
 using DLUSchedule.ViewModels;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Xamarin.Forms;
@@ -19,7 +18,6 @@ namespace DLUSchedule.Views
 
 		public SchedulePage()
 		{
-			Xamarin.Forms.DataGrid.DataGridComponent.Init();
 			InitializeComponent();
 
 			BindingContext = model;
@@ -28,11 +26,11 @@ namespace DLUSchedule.Views
 		}
 
 		#region Events
-		private void SchedulePage_Appearing(object sender, System.EventArgs e)
+		private void SchedulePage_Appearing(object sender, EventArgs e)
 		{
 			Task.Run(() =>
 			{
-				MSchedule = new MockSheduleData(model.Schoolyear, model.Semester, model.Week, model.ProfessorID);
+				MSchedule = new MockSheduleData(model.LoginModel.Schoolyear, model.LoginModel.Semester, model.LoginModel.Week, model.LoginModel.Lecturer.ProfessorID);
 				//List<DisplayedDay> days = new List<DisplayedDay>();
 				//foreach (var day in MSchedule.WeekSchedule)
 				//{
@@ -46,7 +44,7 @@ namespace DLUSchedule.Views
 				//model.ItemsSource = days;
 				Application.Current.Dispatcher.BeginInvokeOnMainThread(() =>
 				{
-					webviewSchedule.Source = new HtmlWebViewSource { Html = MSchedule.HtmlSchedule };
+					webviewSchedule.Source = new HtmlWebViewSource { Html = MSchedule.ScheduleAsHTML };
 				});
 			});
 		}

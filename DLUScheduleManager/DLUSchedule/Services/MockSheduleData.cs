@@ -13,7 +13,6 @@ namespace DLUSchedule.Services
 	/// </summary>
 	public class MockSheduleData
 	{
-		private HtmlDocument htmlDoc;
 		private int weekNumber;
 		private DateTime beginDate;
 		private string[] dayOfWeek = { "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday" };
@@ -22,12 +21,7 @@ namespace DLUSchedule.Services
 		/// Thời khóa biểu các ngày trong tuần
 		/// </summary>
 		public List<Day> WeekSchedule { get; protected set; }
-		public string HtmlSchedule { get; protected set; }
-
-		public MockSheduleData(List<Day> weekSchedule)
-		{
-			WeekSchedule = weekSchedule;
-		}
+		public string ScheduleAsHTML { get; protected set; }
 
 		public MockSheduleData(string schoolyear, string semester, int weekNumber, string professorID)
 		{
@@ -37,6 +31,7 @@ namespace DLUSchedule.Services
 				throw new ArgumentNullException("Please use the constructor with four parameters first");
 			string url = $"http://qlgd.dlu.edu.vn/Public/DrawingProfessorSchedule?YearStudy={schoolyear}&TermID={semester}&Week={weekNumber}&ProfessorID={professorID}";
 			ParseHtml(url);
+			ParseHtmlAsListString(url);
 		}
 
 		/// <summary>
@@ -46,29 +41,48 @@ namespace DLUSchedule.Services
 		private void ParseHtml(string url)
 		{
 			HtmlWeb htmlWeb = new HtmlWeb();
-			htmlDoc = htmlWeb.Load(url);
-			HtmlSchedule = htmlDoc.Text;
-			//List<List<string>> table = htmlDoc.DocumentNode.SelectSingleNode("//table")
-			//	.Descendants("tr")
-			//	.Skip(1) // Skip <th>
-			//	.Where(tr => tr.Elements("td").Count() > 1)
-			//	.Select(tr => tr.Elements("td").Select(td => td.InnerText.Trim()).ToList())
-			//	.ToList();
-			//beginDate = HomePage.Instance.MWeeks.All.First(x => x.Week == weekNumber).GetFirstDayOfWeek;
-			//for (int i = 0; i < 7; i++)
-			//{
-			//	List<string> row = table[i];
-			//	Day day = new Day();
-			//	day.Date = beginDate.AddDays(i);
-			//	day.DayOfWeek = Properties.Resources.ResourceManager.GetString(dayOfWeek[i]);
-			//	day.DayOfWeek += $"\n({day.Date.ToString("d", Properties.Resources.Culture)})";
-			//	foreach (var session in row)
-			//	{
-			//		Subject subject = new Subject(session);
-			//		day.Subjects.Add(subject);
-			//	}
-			//	WeekSchedule.Add(day);
-			//}
+			HtmlDocument htmlDoc = htmlWeb.Load(url);
+			ScheduleAsHTML = htmlDoc.Text;
+		}
+
+		private void ParseHtmlAsListString(string url)
+		{
+			HtmlWeb htmlWeb = new HtmlWeb();
+			HtmlDocument htmlDoc = htmlWeb.Load(url);
+			List<List<string>> table = htmlDoc.DocumentNode.SelectSingleNode("//table")
+				.Descendants("tr")
+				.Skip(1) // Skip <th>
+				.Where(tr => tr.Elements("td").Count() > 1)
+				.Select(tr => tr.Elements("td").Select(td => td.InnerText.Trim()).ToList())
+				.ToList();
+			beginDate = HomePage.Instance.MWeeks.All.First(x => x.Week == weekNumber).GetFirstDayOfWeek;
+			for (int i = 0; i < 7; i++)
+			{
+				List<string> row = table[i];
+				Day day = new Day();
+				day.Date = beginDate.AddDays(i);
+				day.DayOfWeek = Properties.Resources.ResourceManager.GetString(dayOfWeek[i]);
+				day.DayOfWeek += $"\n({day.Date.ToString("d", Properties.Resources.Culture)})";
+				foreach (var session in row)
+				{
+					// Nếu có nhiều hơn các môn trong cùng một buổi
+					if (session.Contains("  "))
+					{
+						string[] arr = session.Split(new string[] { "  " }, StringSplitOptions.None);
+						foreach (var s in arr)
+						{
+							Subject subject = new Subject(s.Trim());
+							day.Subjects.Add(subject);
+						}
+					}
+					else
+					{
+						Subject subject = new Subject(session);
+						day.Subjects.Add(subject);
+					}
+				}
+				WeekSchedule.Add(day);
+			}
 		}
 	}
 }

@@ -1,4 +1,5 @@
-﻿using DLUSchedule.Utils;
+﻿using DLUSchedule.Models;
+using DLUSchedule.Utils;
 using DLUSchedule.Views;
 using System;
 using System.ComponentModel;
@@ -10,10 +11,7 @@ namespace DLUSchedule.ViewModels
 {
 	public class HomeViewModel : BaseViewModel, INotifyPropertyChanged
 	{
-		private string schoolyear;
-		private string semester;
-		private string fullname;
-		private int week;
+		private Login loginModel;
 		private bool isSaved;
 
 		public Action DisplayAlertAction;
@@ -26,37 +24,37 @@ namespace DLUSchedule.ViewModels
 
 		public string Schoolyear
 		{
-			get { return schoolyear; }
+			get { return loginModel.Schoolyear; }
 			set
 			{
-				schoolyear = value;
+				loginModel.Schoolyear = value;
 				PropertyChanged(this, new PropertyChangedEventArgs(nameof(Schoolyear)));
 			}
 		}
 		public string Semester
 		{
-			get { return semester; }
+			get { return loginModel.Semester; }
 			set
 			{
-				semester = value;
+				loginModel.Semester = value;
 				PropertyChanged(this, new PropertyChangedEventArgs(nameof(Semester)));
 			}
 		}
 		public string Fullname
 		{
-			get { return fullname; }
+			get { return loginModel.Lecturer.ProfessorName; }
 			set
 			{
-				fullname = value;
+				loginModel.Lecturer.ProfessorName = value;
 				PropertyChanged(this, new PropertyChangedEventArgs(nameof(Fullname)));
 			}
 		}
 		public int Week
 		{
-			get { return week; }
+			get { return loginModel.Week; }
 			set
 			{
-				week = value;
+				loginModel.Week = value;
 				PropertyChanged(this, new PropertyChangedEventArgs(nameof(Week)));
 			}
 		}
@@ -72,6 +70,7 @@ namespace DLUSchedule.ViewModels
 
 		public HomeViewModel()
 		{
+			loginModel = new Login();
 			SubmitCommand = new Command(OnSubmit);
 			ReloadCommand = new Command(OnReload);
 			Title = "Trang chủ";
@@ -84,15 +83,15 @@ namespace DLUSchedule.ViewModels
 
 		private void OnSubmit(object obj)
 		{
-			if (Common.IsNullOrWhitespace(schoolyear, fullname, semester))
+			if (Common.IsNullOrWhitespace(Schoolyear, Fullname, Semester))
 				DisplayAlertAction();
 			else
 			{
 				if (isSaved)
-					HomePage.LiteDB.Insert(this);
-				string professorID = HomePage.Instance.MLecturers.All.FirstOrDefault(x => x.ProfessorName == fullname).ProfessorID;
-				int realWeek = HomePage.Instance.MWeeks.DisplayWeekToRealWeek(week);
-				_ = Shell.Current.GoToAsync($"{nameof(SchedulePage)}?{nameof(Schoolyear)}={schoolyear}&{nameof(Semester)}={semester}&{nameof(Week)}={realWeek}&ProfessorID={professorID}");
+					HomePage.db.Insert(loginModel);
+				string professorID = HomePage.Instance.MLecturers.All.FirstOrDefault(x => x.ProfessorName == Fullname).ProfessorID;
+				int realWeek = HomePage.Instance.MWeeks.DisplayWeekToRealWeek(Week);
+				_ = Shell.Current.GoToAsync($"{nameof(SchedulePage)}?{nameof(Schoolyear)}={Schoolyear}&{nameof(Semester)}={Semester}&{nameof(Week)}={realWeek}&ProfessorID={professorID}");
 			}
 		}
 	}
