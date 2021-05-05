@@ -1,8 +1,5 @@
 ﻿using DLUSchedule.Models;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Threading.Tasks;
-using System.Windows.Input;
 using Xamarin.Forms;
 
 namespace DLUSchedule.ViewModels
@@ -10,7 +7,7 @@ namespace DLUSchedule.ViewModels
 	[QueryProperty(nameof(Login.Schoolyear), nameof(Login.Schoolyear)),
 		QueryProperty(nameof(Login.Semester), nameof(Login.Semester)),
 		QueryProperty(nameof(Login.Week), nameof(Login.Week)),
-		QueryProperty(nameof(Login.Lecturer.ProfessorID), nameof(Login.Lecturer.ProfessorID))]
+		QueryProperty(nameof(Login.ProfessorId), nameof(Login.ProfessorId))]
 	public class ScheduleViewModel : BaseViewModel, INotifyPropertyChanged
 	{
 		public Login LoginModel { get; set; }
@@ -36,13 +33,13 @@ namespace DLUSchedule.ViewModels
 				PropertyChanged(this, new PropertyChangedEventArgs(nameof(Semester)));
 			}
 		}
-		public string ProfessorID
+		public string ProfessorId
 		{
-			get { return LoginModel.Lecturer.ProfessorID; }
+			get { return LoginModel.ProfessorId; }
 			set
 			{
-				LoginModel.Lecturer.ProfessorID = value;
-				PropertyChanged(this, new PropertyChangedEventArgs(nameof(ProfessorID)));
+				LoginModel.ProfessorId = value;
+				PropertyChanged(this, new PropertyChangedEventArgs(nameof(ProfessorId)));
 			}
 		}
 		public int Week

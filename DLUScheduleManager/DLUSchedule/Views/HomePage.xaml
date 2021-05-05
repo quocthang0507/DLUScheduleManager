@@ -52,7 +52,7 @@
 							</Picker>
 							<Picker x:Name="cbxLecturer" 
 								Title="{x:Static resource:Resources.ChooseLecturer}" 
-								SelectedItem="{Binding Fullname}" />
+								SelectedItem="{Binding ProfessorName}" />
 							<Picker x:Name="cbxWeek" 
 								Title="{x:Static resource:Resources.ChooseWeek}" 
 								SelectedItem="{Binding Week}" />

@@ -31,7 +31,7 @@ namespace DLUSchedule.Services
 				throw new ArgumentNullException("Please use the constructor with four parameters first");
 			string url = $"http://qlgd.dlu.edu.vn/Public/DrawingProfessorSchedule?YearStudy={schoolyear}&TermID={semester}&Week={weekNumber}&ProfessorID={professorID}";
 			ParseHtml(url);
-			ParseHtmlAsListString(url);
+			//ParseHtmlAsListString(url);
 		}
 
 		/// <summary>

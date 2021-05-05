@@ -1,9 +1,11 @@
 ﻿using DLUSchedule.Models;
+using DLUSchedule.Services;
 using DLUSchedule.Utils;
 using DLUSchedule.Views;
 using System;
 using System.ComponentModel;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
 
@@ -40,13 +42,22 @@ namespace DLUSchedule.ViewModels
 				PropertyChanged(this, new PropertyChangedEventArgs(nameof(Semester)));
 			}
 		}
-		public string Fullname
+		public string ProfessorName
 		{
-			get { return loginModel.Lecturer.ProfessorName; }
+			get { return loginModel.ProfessorName; }
 			set
 			{
-				loginModel.Lecturer.ProfessorName = value;
-				PropertyChanged(this, new PropertyChangedEventArgs(nameof(Fullname)));
+				loginModel.ProfessorName = value;
+				PropertyChanged(this, new PropertyChangedEventArgs(nameof(ProfessorName)));
+			}
+		}
+		public string ProfessorId
+		{
+			get { return loginModel.ProfessorId; }
+			set
+			{
+				loginModel.ProfessorId = value;
+				PropertyChanged(this, new PropertyChangedEventArgs(nameof(ProfessorId)));
 			}
 		}
 		public int Week
@@ -83,16 +94,22 @@ namespace DLUSchedule.ViewModels
 
 		private void OnSubmit(object obj)
 		{
-			if (Common.IsNullOrWhitespace(Schoolyear, Fullname, Semester))
+			if (Common.IsNullOrWhitespace(Schoolyear, ProfessorName, Semester))
 				DisplayAlertAction();
 			else
 			{
+				ProfessorId = HomePage.Instance.MLecturers.All.FirstOrDefault(x => x.ProfessorName == ProfessorName).ProfessorID;
 				if (isSaved)
-					HomePage.db.Insert(loginModel);
-				string professorID = HomePage.Instance.MLecturers.All.FirstOrDefault(x => x.ProfessorName == Fullname).ProfessorID;
+					Task.Run(() => SaveLogin());
 				int realWeek = HomePage.Instance.MWeeks.DisplayWeekToRealWeek(Week);
-				_ = Shell.Current.GoToAsync($"{nameof(SchedulePage)}?{nameof(Schoolyear)}={Schoolyear}&{nameof(Semester)}={Semester}&{nameof(Week)}={realWeek}&ProfessorID={professorID}");
+				_ = Shell.Current.GoToAsync($"{nameof(SchedulePage)}?{nameof(Schoolyear)}={Schoolyear}&{nameof(Semester)}={Semester}&{nameof(Week)}={realWeek}&ProfessorId={ProfessorId}");
 			}
+		}
+
+		private async Task<bool> SaveLogin()
+		{
+			var database = await LoginDatabase.Instance;
+			return await database.InsertOrUpdateAsync(loginModel) > 0;
 		}
 	}
 }

@@ -30,7 +30,7 @@ namespace DLUSchedule.Views
 		{
 			Task.Run(() =>
 			{
-				MSchedule = new MockSheduleData(model.LoginModel.Schoolyear, model.LoginModel.Semester, model.LoginModel.Week, model.LoginModel.Lecturer.ProfessorID);
+				MSchedule = new MockSheduleData(model.LoginModel.Schoolyear, model.LoginModel.Semester, model.LoginModel.Week, model.LoginModel.ProfessorId);
 				//List<DisplayedDay> days = new List<DisplayedDay>();
 				//foreach (var day in MSchedule.WeekSchedule)
 				//{

@@ -1,11 +1,8 @@
-﻿using DLUSchedule.Models;
-using DLUSchedule.Services;
+﻿using DLUSchedule.Services;
 using DLUSchedule.Utils;
 using DLUSchedule.ViewModels;
-using LiteDB;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Xamarin.Forms;
@@ -22,16 +19,18 @@ namespace DLUSchedule.Views
 		public MockWeekData MWeeks { get; protected set; }
 		public MockLecturerData MLecturers { get; protected set; }
 		public static HomePage Instance { get { return singleton; } }
-		public static LiteDBHelper db;
 
 		public HomePage()
 		{
 			InitializeComponent();
-			db = new LiteDBHelper(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), Constants.DBName));
 			BindingContext = model;
 
 			model.DisplayAlertAction += () => DisplayAlert("Lỗi", "Không được bỏ trống ô này!", "Đồng ý");
-			model.ReloadAction += () => PopulateLecturersAndWeeksAsync();
+			model.ReloadAction += (() =>
+			{
+				HomePage_Appearing(null, null);
+				PopulateLecturersAndWeeks();
+			});
 			Appearing += HomePage_Appearing;
 
 			cbxSchoolYear.SelectedIndexChanged += Combobox_SelectedIndexChanged;
@@ -39,7 +38,7 @@ namespace DLUSchedule.Views
 
 			singleton = this;
 
-			LoadFromDatabase();
+			LoadFromDatabaseAsync();
 		}
 
 		#region Events
@@ -47,7 +46,7 @@ namespace DLUSchedule.Views
 		{
 			if (cbxSemester.SelectedItem != null && cbxSchoolYear.SelectedItem != null)
 			{
-				_ = PopulateLecturersAndWeeksAsync();
+				PopulateLecturersAndWeeks();
 			}
 		}
 
@@ -129,12 +128,12 @@ namespace DLUSchedule.Views
 		/// <summary>
 		/// Tải lại các nội dung khi học kỳ hoặc tên giảng viên bị thay đổi
 		/// </summary>
-		private async Task PopulateLecturersAndWeeksAsync()
+		private void PopulateLecturersAndWeeks()
 		{
-			await PopulateLecturersInSemesterAsync(cbxSchoolYear.SelectedItem as string, cbxSemester.SelectedItem as string);
+			_ = PopulateLecturersInSemesterAsync(cbxSchoolYear.SelectedItem as string, cbxSemester.SelectedItem as string);
 			cbxLecturer.SelectedIndex = 0;
 
-			await PopulateWeeksInSemesterAsync(cbxSchoolYear.SelectedItem as string, cbxSemester.SelectedItem as string);
+			_ = PopulateWeeksInSemesterAsync(cbxSchoolYear.SelectedItem as string, cbxSemester.SelectedItem as string);
 			if (MWeeks.All != null)
 			{
 				int numberOfWeeks = Common.GetWeekOfYear(DateTime.Now);
@@ -144,20 +143,21 @@ namespace DLUSchedule.Views
 				else
 					cbxWeek.SelectedIndex = 0;
 			}
-
-			LoadFromDatabase();
 		}
 
-		private void LoadFromDatabase()
+		private async void LoadFromDatabaseAsync()
 		{
-			var saved = db.GetOne();
-			if (saved != null)
+			var database = await LoginDatabase.Instance;
+			var items = await database.GetItemsAsync();
+			var first = items.FirstOrDefault();
+			if (first != null)
 			{
-				cbxSemester.SelectedItem = saved.Semester;
-				cbxSchoolYear.SelectedItem = saved.Schoolyear;
-				cbxLecturer.SelectedItem = saved.Lecturer.ProfessorName;
-				cbxWeek.SelectedItem = saved.Week;
+				cbxSemester.SelectedItem = first.Semester;
+				cbxSchoolYear.SelectedItem = first.Schoolyear;
+				cbxLecturer.SelectedItem = first.ProfessorName;
+				cbxWeek.SelectedItem = first.Week;
 				chkSave.IsChecked = true;
+
 			}
 		}
 		#endregion

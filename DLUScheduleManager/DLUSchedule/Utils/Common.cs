@@ -124,10 +124,10 @@ namespace DLUSchedule.Utils
 		{
 			foreach (var str in strs)
 			{
-				if (!string.IsNullOrWhiteSpace(str))
-					return false;
+				if (string.IsNullOrWhiteSpace(str))
+					return true;
 			}
-			return true;
+			return false;
 		}
 
 		/// <summary>
