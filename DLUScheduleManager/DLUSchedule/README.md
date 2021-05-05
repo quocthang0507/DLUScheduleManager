@@ -1,7 +1,6 @@
-Welcome to Xamarin.Forms! Here are some tips to get started building your app.
+# Welcome to Xamarin.Forms! Here are some tips to get started building your app.
 
-Building Your App UI
---------------------
+## Building Your App UI
 
 XAML Hot Reload quickly applies UI changes as you make them to your running app.
 This is the most productive way to preview and iteratively create your UI.
@@ -9,20 +8,18 @@ This is the most productive way to preview and iteratively create your UI.
 Try it out:
 
 1. Run the app by clicking the Start Debugging (play) button in the above toolbar. 
-2. Open <MainProject>\Views\AboutPage.xaml.
+2. Open `<MainProject>\Views\AboutPage.xaml`
    Don't stop the app - keep it running while making changes.
 3. Change something! Hint: change the Accent color on line 14 from "#96d1ff" to "Pink".
 4. Watch the About screen update on the device or emulator, with the logo background now pink.
 
 Keep going and try more changes!
 
-QuickStart Guide
-----------------
+## QuickStart Guide
 
-Learn more of the fundamentals for building apps with Xamarin here: https://aka.ms/xamarin-quickstart
+Learn more of the fundamentals for building apps with Xamarin here: [https://aka.ms/xamarin-quickstart](https://aka.ms/xamarin-quickstart)
 
-Your App Shell
---------------
+## Your App Shell
 
 This template uses Shell, an app container that reduces the complexity of your apps by providing fundamental features including:
 
@@ -31,4 +28,4 @@ This template uses Shell, an app container that reduces the complexity of your a
 - A URI-based navigation scheme that permits navigation to any page in the application.
 - An integrated search handler.
 
-Open AppShell.xaml to begin exploring. To learn more about Shell visit: https://docs.microsoft.com/xamarin/xamarin-forms/app-fundamentals/shell/introduction
+Open AppShell.xaml to begin exploring. To learn more about Shell visit: [https://docs.microsoft.com/xamarin/xamarin-forms/app-fundamentals/shell/introduction](https://docs.microsoft.com/xamarin/xamarin-forms/app-fundamentals/shell/introduction)
