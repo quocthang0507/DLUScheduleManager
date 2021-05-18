@@ -63,7 +63,7 @@
 								<ColumnDefinition Width="20"/>
 								<ColumnDefinition Width="*"/>
 							</Grid.ColumnDefinitions>
-							<CheckBox x:Name="chkSave" VerticalOptions="Center" IsChecked="{Binding IsSaved}"/>
+							<CheckBox x:Name="chkSave" VerticalOptions="Center" IsChecked="{Binding IsSaved}" />
 							<Label Text="{x:Static resource:Resources.SaveLogin}" Grid.Column="1" VerticalOptions="Center"/>
 						</Grid>
 
