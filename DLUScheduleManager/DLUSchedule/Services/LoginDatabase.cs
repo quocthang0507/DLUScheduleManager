@@ -21,35 +21,35 @@ namespace DLUSchedule.Services
 			Database = new SQLiteAsyncConnection(Constants.DatabasePath, Constants.Flags);
 		}
 
-		public Task<List<Login>> GetItemsAsync()
+		public async Task<List<Login>> GetItemsAsync()
 		{
-			return Database.Table<Login>().ToListAsync();
+			return await Database.Table<Login>().ToListAsync();
 		}
 
-		public Task<Login> GetItemByIdAsync(string id)
+		public async Task<Login> GetItemByIdAsync(string id)
 		{
-			return Database.Table<Login>().Where(l => l.ProfessorId == id).FirstOrDefaultAsync();
+			return await Database.Table<Login>().Where(l => l.ProfessorId == id).FirstOrDefaultAsync();
 		}
 
-		public Task<Login> GetItemByNameAsync(string name)
+		public async Task<Login> GetItemByNameAsync(string name)
 		{
-			return Database.Table<Login>().Where(l => l.ProfessorName == name).FirstOrDefaultAsync();
+			return await Database.Table<Login>().Where(l => l.ProfessorName == name).FirstOrDefaultAsync();
 		}
 
-		public Task<int> InsertOrUpdateAsync(Login item)
+		public async Task<int> InsertOrUpdateAsync(Login item)
 		{
-			Database.DeleteAllAsync<Login>();
-			return Database.InsertAsync(item);
+			await Database.DeleteAllAsync<Login>();
+			return await Database.InsertAsync(item);
 		}
 
-		public Task<int> DeleteItemAsync(Login item)
+		public async Task<int> DeleteItemAsync(Login item)
 		{
-			return Database.DeleteAsync(item);
+			return await Database.DeleteAsync(item);
 		}
 
-		public Task<int> DeleteItemsAsync()
+		public async Task<int> DeleteItemsAsync()
 		{
-			return Database.ExecuteAsync("DELETE * FROM [Login]");
+			return await Database.ExecuteAsync("DELETE * FROM [Login]");
 		}
 	}
 }

@@ -44,7 +44,7 @@ namespace DLUSchedule.Views
 				//model.ItemsSource = days;
 				Application.Current.Dispatcher.BeginInvokeOnMainThread(() =>
 				{
-					webviewSchedule.Source = new HtmlWebViewSource { Html = MSchedule.ScheduleAsHTML };
+					webviewSchedule.Source = new HtmlWebViewSource { Html = MSchedule.WeekScheduleAsHTML };
 				});
 			});
 		}

@@ -52,12 +52,12 @@ namespace DLUSchedule.Models
 				Match taught = regexTaught.Match(description);
 				Match room = regexRoom.Match(description);
 
-				this.Name = name.Value.Remove(name.Value.Length - 1).Replace("-Môn: ", "");
-				this.Group = Convert.ToInt32(group.Value.Remove(group.Value.Length - 1).Replace("-Nhóm: ", ""));
-				this.Class = @class.Value.Replace("-Lớp: ", "").Replace("-Tiết", "");
-				this.Period = period.Value.Replace("-Tiết: ", "").Replace("-Đã dạy", "");
-				this.TaughtSession = taught.Value.Replace("-Đã dạy: ", "").Replace("-Phòng", "");
-				this.RoomID = room.Value.Replace("-Phòng : ", "");
+				Name = name.Value.Remove(name.Value.Length - 1).Replace("-Môn: ", "");
+				Group = Convert.ToInt32(group.Value.Remove(group.Value.Length - 1).Replace("-Nhóm: ", ""));
+				Class = @class.Value.Replace("-Lớp: ", "").Replace("-Tiết", "");
+				Period = period.Value.Replace("-Tiết: ", "").Replace("-Đã dạy", "");
+				TaughtSession = taught.Value.Replace("-Đã dạy: ", "").Replace("-Phòng", "");
+				RoomID = room.Value.Replace("-Phòng : ", "");
 			}
 		}
 

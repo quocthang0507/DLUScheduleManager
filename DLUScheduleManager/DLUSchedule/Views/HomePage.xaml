@@ -9,22 +9,43 @@
 	<ContentPage.Resources>
 		<ResourceDictionary>
 			<Color x:Key="SuccessButton">#28a745</Color>
+
+			<!-- Light colors -->
+			<Color x:Key="LightPrimaryColor">WhiteSmoke</Color>
+			<Color x:Key="LightSecondaryColor">Black</Color>
+
+			<!-- Dark colors -->
+			<Color x:Key="DarkPrimaryColor">DarkSlateGray</Color>
+			<Color x:Key="DarkSecondaryColor">White</Color>
+
+			<Style x:Key="PickerStyle" TargetType="Picker">
+				<Setter Property="BackgroundColor"
+                    Value="{AppThemeBinding Light={StaticResource LightPrimaryColor}, Dark={StaticResource DarkPrimaryColor}}" />
+				<Setter Property="TextColor"
+                    Value="{AppThemeBinding Light={StaticResource LightSecondaryColor}, Dark={StaticResource DarkSecondaryColor}}" />
+			</Style>
+
+			<Style x:Key="HeaderStyle" TargetType="StackLayout">
+				<Setter Property="BackgroundColor"
+                    Value="{AppThemeBinding Dark={StaticResource DarkSecondaryColor}}" />
+			</Style>
 		</ResourceDictionary>
 	</ContentPage.Resources>
 
 	<ContentPage.Content>
-		<Grid>
+		<Grid BackgroundColor="{AppThemeBinding Light={StaticResource LightPrimaryColor}, Dark={StaticResource DarkPrimaryColor}}">
 			<Grid.RowDefinitions>
 				<RowDefinition Height="Auto" />
 				<RowDefinition Height="*" />
 			</Grid.RowDefinitions>
 			<StackLayout VerticalOptions="FillAndExpand" HorizontalOptions="Fill">
-				<StackLayout Orientation="Vertical" HorizontalOptions="Center" VerticalOptions="Center">
-					<ContentView Padding="0,10,0,10" VerticalOptions="FillAndExpand">
+				<StackLayout Orientation="Vertical" HorizontalOptions="Center" VerticalOptions="Center" Style="{StaticResource HeaderStyle}">
+					<ContentView Padding="0,10,0,10" VerticalOptions="FillAndExpand"
+						BackgroundColor="{AppThemeBinding Dark={StaticResource DarkSecondaryColor}}">
 						<Image Source="logo_DLU.png" VerticalOptions="Center"/>
 					</ContentView>
 					<Label Text="{x:Static resource:Resources.Title}" FontSize="Title" 
-						   HorizontalTextAlignment="Center" TextTransform="Uppercase"/>
+						   HorizontalTextAlignment="Center" TextTransform="Uppercase" TextColor="Black"/>
 				</StackLayout>
 			</StackLayout>
 			<ScrollView Grid.Row="1">
@@ -38,10 +59,12 @@
 						<StackLayout Orientation="Vertical" Spacing="20">
 							<Picker x:Name="cbxSchoolYear" 
 								Title="{x:Static resource:Resources.ChooseYear}" 
-								SelectedItem="{Binding Schoolyear}"	/>
+								SelectedItem="{Binding Schoolyear}"
+								Style="{StaticResource PickerStyle}"/>
 							<Picker x:Name="cbxSemester" 
 								Title="{x:Static resource:Resources.ChooseSemester}" 
-								SelectedItem="{Binding Semester}" >
+								SelectedItem="{Binding Semester}" 
+								Style="{StaticResource PickerStyle}">
 								<Picker.ItemsSource>
 									<x:Array Type="{x:Type x:String}">
 										<x:String>HK01</x:String>
@@ -52,26 +75,38 @@
 							</Picker>
 							<Picker x:Name="cbxLecturer" 
 								Title="{x:Static resource:Resources.ChooseLecturer}" 
-								SelectedItem="{Binding ProfessorName}" />
+								SelectedItem="{Binding ProfessorName}" 
+								Style="{StaticResource PickerStyle}" />
 							<Picker x:Name="cbxWeek" 
 								Title="{x:Static resource:Resources.ChooseWeek}" 
-								SelectedItem="{Binding Week}" />
+								SelectedItem="{Binding Week}" 
+								Style="{StaticResource PickerStyle}"/>
 						</StackLayout>
 
 						<Grid>
 							<Grid.ColumnDefinitions>
-								<ColumnDefinition Width="20"/>
+								<ColumnDefinition Width="30"/>
 								<ColumnDefinition Width="*"/>
 							</Grid.ColumnDefinitions>
 							<CheckBox x:Name="chkSave" VerticalOptions="Center" IsChecked="{Binding IsSaved}" />
 							<Label Text="{x:Static resource:Resources.SaveLogin}" Grid.Column="1" VerticalOptions="Center"/>
 						</Grid>
 
-						<Button Text="{x:Static resource:Resources.ViewSchedule}"
-							Command="{Binding SubmitCommand}" ImageSource="view.png"/>
-
-						<Button x:Name="btnReload" Text="{x:Static resource:Resources.Reload}" ImageSource="reload.png"
-							Command="{Binding ReloadCommand}" BackgroundColor="{StaticResource SuccessButton}"/>
+						<Grid>
+							<Grid.RowDefinitions>
+								<RowDefinition Height="*"/>
+								<RowDefinition Height="*"/>
+							</Grid.RowDefinitions>
+							<Grid.ColumnDefinitions>
+								<ColumnDefinition Width="*"/>
+								<ColumnDefinition Width="200"/>
+								<ColumnDefinition Width="*"/>
+							</Grid.ColumnDefinitions>
+							<Button Text="{x:Static resource:Resources.ViewSchedule}" ImageSource="view.png"
+								Command="{Binding SubmitCommand}" Grid.Column="1"/>
+							<Button x:Name="btnReload" Text="{x:Static resource:Resources.Reload}" ImageSource="reload.png"
+								Command="{Binding ReloadCommand}" BackgroundColor="Green" Grid.Row="1" Grid.Column="1"/>
+						</Grid>
 
 					</StackLayout>
 				</Grid>

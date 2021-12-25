@@ -21,7 +21,7 @@ namespace DLUSchedule.Services
 		/// Thời khóa biểu các ngày trong tuần
 		/// </summary>
 		public List<Day> WeekSchedule { get; protected set; }
-		public string ScheduleAsHTML { get; protected set; }
+		public string WeekScheduleAsHTML { get; protected set; }
 
 		public MockSheduleData(string schoolyear, string semester, int weekNumber, string professorID)
 		{
@@ -31,7 +31,7 @@ namespace DLUSchedule.Services
 				throw new ArgumentNullException("Please use the constructor with four parameters first");
 			string url = $"http://qlgd.dlu.edu.vn/Public/DrawingProfessorSchedule?YearStudy={schoolyear}&TermID={semester}&Week={weekNumber}&ProfessorID={professorID}";
 			ParseHtml(url);
-			//ParseHtmlAsListString(url);
+			ParseHtmlAsListString(url);
 		}
 
 		/// <summary>
@@ -42,7 +42,7 @@ namespace DLUSchedule.Services
 		{
 			HtmlWeb htmlWeb = new HtmlWeb();
 			HtmlDocument htmlDoc = htmlWeb.Load(url);
-			ScheduleAsHTML = htmlDoc.Text;
+			WeekScheduleAsHTML = htmlDoc.Text;
 		}
 
 		private void ParseHtmlAsListString(string url)
@@ -59,9 +59,11 @@ namespace DLUSchedule.Services
 			for (int i = 0; i < 7; i++)
 			{
 				List<string> row = table[i];
-				Day day = new Day();
-				day.Date = beginDate.AddDays(i);
-				day.DayOfWeek = Properties.Resources.ResourceManager.GetString(dayOfWeek[i]);
+				Day day = new Day
+				{
+					Date = beginDate.AddDays(i),
+					DayOfWeek = Properties.Resources.ResourceManager.GetString(dayOfWeek[i])
+				};
 				day.DayOfWeek += $"\n({day.Date.ToString("d", Properties.Resources.Culture)})";
 				foreach (var session in row)
 				{

@@ -38,7 +38,7 @@ namespace DLUSchedule.Views
 
 			singleton = this;
 
-			LoadFromDatabaseAsync();
+			//LoadFromDatabaseAsync();
 		}
 
 		#region Events
@@ -54,6 +54,7 @@ namespace DLUSchedule.Views
 		{
 			PopulateSchoolyears();
 			SetCurrentSemester();
+			LoadFromDatabaseAsync();
 		}
 
 		#endregion
@@ -85,7 +86,7 @@ namespace DLUSchedule.Views
 		private void SetCurrentSemester()
 		{
 			int month = DateTime.Now.Month;
-			if (month <= 12 && month >= 9) // HK1
+			if (month <= 12 && month >= 8) // HK1
 				cbxSemester.SelectedIndex = 0;
 			else if (month >= 1 && month <= 6)
 				cbxSemester.SelectedIndex = 1; // HK2
@@ -103,7 +104,7 @@ namespace DLUSchedule.Views
 			MWeeks = new MockWeekData(schoolyear, semester);
 			if (MWeeks.All == null)
 			{
-				await DisplayAlert("Lỗi", "Lỗi xuất hiện khi xử lý dữ liệu", "OK");
+				await DisplayAlert("Lỗi", "Lỗi xuất hiện khi xử lý dữ liệu", "OK").ConfigureAwait(true);
 				return;
 			}
 			else cbxWeek.ItemsSource = MWeeks.All.Select(x => x.DisPlayWeek).ToList();
@@ -145,7 +146,7 @@ namespace DLUSchedule.Views
 			}
 		}
 
-		private async void LoadFromDatabaseAsync()
+		private async Task LoadFromDatabaseAsync()
 		{
 			var database = await LoginDatabase.Instance;
 			var items = await database.GetItemsAsync();
@@ -157,7 +158,6 @@ namespace DLUSchedule.Views
 				cbxLecturer.SelectedItem = first.ProfessorName;
 				cbxWeek.SelectedItem = first.Week;
 				chkSave.IsChecked = true;
-
 			}
 		}
 		#endregion

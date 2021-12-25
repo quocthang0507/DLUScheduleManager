@@ -100,13 +100,13 @@ namespace DLUSchedule.ViewModels
 			{
 				ProfessorId = HomePage.Instance.MLecturers.All.FirstOrDefault(x => x.ProfessorName == ProfessorName).ProfessorID;
 				if (isSaved)
-					Task.Run(() => SaveLogin());
+					Task.Run(() => SaveLoginAsync());
 				int realWeek = HomePage.Instance.MWeeks.DisplayWeekToRealWeek(Week);
 				_ = Shell.Current.GoToAsync($"{nameof(SchedulePage)}?{nameof(Schoolyear)}={Schoolyear}&{nameof(Semester)}={Semester}&{nameof(Week)}={realWeek}&ProfessorId={ProfessorId}");
 			}
 		}
 
-		private async Task<bool> SaveLogin()
+		private async Task<bool> SaveLoginAsync()
 		{
 			var database = await LoginDatabase.Instance;
 			return await database.InsertOrUpdateAsync(loginModel) > 0;
