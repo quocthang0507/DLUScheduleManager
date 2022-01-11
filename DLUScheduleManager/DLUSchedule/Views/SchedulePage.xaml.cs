@@ -3,7 +3,6 @@ using DLUSchedule.Services;
 using DLUSchedule.ViewModels;
 using System;
 using System.Linq;
-using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -28,24 +27,21 @@ namespace DLUSchedule.Views
 		#region Events
 		private void SchedulePage_Appearing(object sender, EventArgs e)
 		{
-			Task.Run(() =>
+			MSchedule = new MockSheduleData(model.LoginModel.Schoolyear, model.LoginModel.Semester, model.LoginModel.Week, model.LoginModel.ProfessorId);
+			//List<DisplayedDay> days = new List<DisplayedDay>();
+			//foreach (var day in MSchedule.WeekSchedule)
+			//{
+			//	ParseSessions(day, out string morning, out string afternoon, out string night);
+			//	days.Add(new DisplayedDay(day.DayOfWeek, morning, afternoon, night));
+			//}
+			//Application.Current.Dispatcher.BeginInvokeOnMainThread(() =>
+			//{
+			//	ChangeRowHeight(days);
+			//});
+			//model.ItemsSource = days;
+			Application.Current.Dispatcher.BeginInvokeOnMainThread(() =>
 			{
-				MSchedule = new MockSheduleData(model.LoginModel.Schoolyear, model.LoginModel.Semester, model.LoginModel.Week, model.LoginModel.ProfessorId);
-				//List<DisplayedDay> days = new List<DisplayedDay>();
-				//foreach (var day in MSchedule.WeekSchedule)
-				//{
-				//	ParseSessions(day, out string morning, out string afternoon, out string night);
-				//	days.Add(new DisplayedDay(day.DayOfWeek, morning, afternoon, night));
-				//}
-				//Application.Current.Dispatcher.BeginInvokeOnMainThread(() =>
-				//{
-				//	ChangeRowHeight(days);
-				//});
-				//model.ItemsSource = days;
-				Application.Current.Dispatcher.BeginInvokeOnMainThread(() =>
-				{
-					webviewSchedule.Source = new HtmlWebViewSource { Html = MSchedule.WeekScheduleAsHTML };
-				});
+				webviewSchedule.Source = new HtmlWebViewSource { Html = MSchedule.WeekScheduleAsHTML };
 			});
 		}
 

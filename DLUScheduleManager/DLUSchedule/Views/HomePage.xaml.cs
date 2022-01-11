@@ -1,4 +1,5 @@
-﻿using DLUSchedule.Services;
+﻿using DLUSchedule.Models;
+using DLUSchedule.Services;
 using DLUSchedule.Utils;
 using DLUSchedule.ViewModels;
 using System;
@@ -15,6 +16,7 @@ namespace DLUSchedule.Views
 	{
 		private readonly HomeViewModel model = new HomeViewModel();
 		private static HomePage singleton;
+		private INotificationManager notificationManager;
 
 		public MockWeekData MWeeks { get; protected set; }
 		public MockLecturerData MLecturers { get; protected set; }
@@ -23,6 +25,9 @@ namespace DLUSchedule.Views
 		public HomePage()
 		{
 			InitializeComponent();
+
+			notificationManager = DependencyService.Get<INotificationManager>();
+
 			BindingContext = model;
 
 			model.DisplayAlertAction += () => DisplayAlert("Lỗi", "Không được bỏ trống ô này!", "Đồng ý");
@@ -42,6 +47,7 @@ namespace DLUSchedule.Views
 		}
 
 		#region Events
+
 		private void Combobox_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			if (cbxSemester.SelectedItem != null && cbxSchoolYear.SelectedItem != null)
@@ -54,12 +60,13 @@ namespace DLUSchedule.Views
 		{
 			PopulateSchoolyears();
 			SetCurrentSemester();
-			LoadFromDatabaseAsync();
+			_ = LoadFromDatabaseAsync();
 		}
 
 		#endregion
 
 		#region Methods
+
 		/// <summary>
 		/// Tạo danh sách năm học
 		/// </summary>
@@ -149,7 +156,7 @@ namespace DLUSchedule.Views
 		private async Task LoadFromDatabaseAsync()
 		{
 			var database = await LoginDatabase.Instance;
-			var items = await database.GetItemsAsync();
+			var items = await database .GetItemsAsync();
 			var first = items.FirstOrDefault();
 			if (first != null)
 			{
